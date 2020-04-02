@@ -51,7 +51,10 @@ ENV C_INCLUDE_PATH /usr/local/include
 RUN pip install --no-cache-dir --upgrade pip
 
 # fitsio needs this to be installed first
+
 RUN pip install --no-cache-dir numpy==1.17
+
+RUN pip install --no-cache-dir cffi
 
 # Basic python requirements
 RUN pip install --no-cache-dir \
@@ -68,45 +71,40 @@ RUN pip install --no-cache-dir \
                 treecorr \
                 descformats \
                 sacc \
-                mlz_desc
+                mlz_desc \
+                six
 
 # Install h5py, recompiling so that we use HDF5 with MPI
 RUN pip install --no-cache-dir --no-binary=h5py h5py==2.9.0
 
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@minirunner
+# Manual namaster install
+RUN mkdir -p /opt/namaster && cd /opt/namaster \
+    && git clone https://github.com/Libsharp/libsharp \
+    && cd libsharp \
+    && autoconf \
+    && ./configure --enable-pic  --enable-openmp \
+    && make \
+    && cp auto/lib/* /usr/local/lib/ \
+    && cp auto/include/* /usr/local/include/ \
+    && rm -rf /opt/namaster
+
 
 # Manual namaster install
 RUN mkdir -p /opt/namaster && cd /opt/namaster \
     && git clone https://github.com/LSSTDESC/NaMaster \
-    && git clone https://github.com/Libsharp/libsharp \
-    && cd libsharp \
-    && autoconf \
-    && ./configure --enable-pic  --disable-openmp \
-    && make \
-    && cp auto/lib/* /usr/local/lib/ \
-    && cp auto/include/* /usr/local/include/ \
-    && cd ../NaMaster \
-    && ./configure --disable-openmp \
+    && cd NaMaster \
+    && ./configure --enable-openmp \
     && make  \
     && make install \
     && python setup.py install \
     && rm -rf /opt/namaster
 
-# Manual CCL install
-RUN cd /opt \
-    && git clone https://github.com/LSSTDESC/CCL.git \
-    && cd CCL \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    && make \
-    && make install \
-    && cd .. \
-    && python setup.py install \
-    && rm -rf /opt/CCL
 
-RUN pip install GCR pyarrow
-RUN pip install git+https://github.com/LSSTDESC/gcr-catalogs
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v0.2
+RUN pip install --no-cache-dir  GCR pyarrow ipython
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.15.0
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 
-WORKDIR /opt/txpipe
+ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
+
 CMD ["/bin/bash", "-l"]
