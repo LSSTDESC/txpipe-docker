@@ -6,7 +6,9 @@ for running TXPipe, TXPipe+CosmoSIS, and TXPipe+FireCrown, both
 at NERSC and elsewhere.
 
 You don't need to run anything from this repo yourself - Joe does
-that for you and pushes things to NERSC.
+that for you and pushes things to docker hub NERSC.
+
+You just need to run the commands described below to access these tools.
 
 Installing
 ----------
