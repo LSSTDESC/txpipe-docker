@@ -28,7 +28,7 @@ is the most up-to-date, for both repos (one will be cloned inside the other):
 
 ```
 git clone https://github.com/LSSTDESC/TXPipe
-git clone https://github.com/LSSTDESC/FireCrown
+git clone https://github.com/LSSTDESC/firecrown
 git clone -b develop https://bitbucket.org/joezuntz/cosmosis
 git clone -b develop https://bitbucket.org/joezuntz/cosmosis-standard-library cosmosis/cosmosis-standard-library
 ```
