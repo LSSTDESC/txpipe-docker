@@ -104,7 +104,7 @@ RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v0.2
 RUN pip install --no-cache-dir  GCR pyarrow ipython
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.15.0
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
-
+RUN pip install --no-cache-dir  emcee
 ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
 
 CMD ["/bin/bash", "-l"]

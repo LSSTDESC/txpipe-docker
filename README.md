@@ -21,15 +21,14 @@ cd $SCRATCH
 
 
 Clone the repositories.  Only the dependencies are installed because
-these are still under active development.
+these are still under active development.  The CosmoSIS develop branch
+is the most up-to-date, for both repos (one will be cloned inside the other):
 
 ```
 git clone https://github.com/LSSTDESC/TXPipe
 git clone https://github.com/LSSTDESC/FireCrown
-git clone https://bitbucket.org/joezuntz/cosmosis
-cd cosmosis
-git clone https://bitbucket.org/joezuntz/cosmosis-standard-library
-cd ..
+git clone -b develop https://bitbucket.org/joezuntz/cosmosis
+git clone -b develop https://bitbucket.org/joezuntz/cosmosis-standard-library cosmosis/cosmosis-standard-library
 ```
 
 Running TXPipe+CosmoSIS at NERSC
@@ -65,7 +64,7 @@ Launch the container.
 We use -V to map container cosmosis paths to SCRATCH paths.
 
 ```
-docker run -v -v $PWD/cosmosis:/opt/cosmosis -v $PWD/TXPipe:/opt/txpipe --rm -it joezuntz/txpipe-cosmosis bash
+docker run -v $PWD/cosmosis:/opt/cosmosis -v $PWD/TXPipe:/opt/txpipe --rm -it joezuntz/txpipe-cosmosis bash
 ```
 
 Compile CosmoSIS:
