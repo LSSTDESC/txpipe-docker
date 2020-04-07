@@ -101,10 +101,18 @@ RUN mkdir -p /opt/namaster && cd /opt/namaster \
 
 
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v0.2
-RUN pip install --no-cache-dir  GCR pyarrow ipython
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.15.0
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.16.0
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
-RUN pip install --no-cache-dir  emcee
-ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
+RUN pip install --no-cache-dir  \
+                emcee \
+                pyccl \
+                camb \
+                GCR \
+                pyarrow \
+                ipython
 
+ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
+# These prevent errors all over the place on NERSC
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]

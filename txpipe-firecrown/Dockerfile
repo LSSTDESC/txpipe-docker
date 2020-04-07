@@ -10,11 +10,7 @@ RUN apt-get update -y \
     && apt-get clean all
 
 
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
 RUN pip install --no-cache-dir \
                 cosmosis-standalone \
-                camb \
                 tjpcov \
-                threadpoolctl \
-                pyccl
+                threadpoolctl
