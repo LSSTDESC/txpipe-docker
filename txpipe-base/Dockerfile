@@ -68,11 +68,12 @@ RUN pip install --no-cache-dir \
                 scipy==1.3.1 \
                 fitsio==0.9.11 \
                 healpy==1.12.9 \
-                treecorr \
                 descformats \
                 sacc \
                 mlz_desc \
                 six
+
+RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@master
 
 # Install h5py, recompiling so that we use HDF5 with MPI
 RUN pip install --no-cache-dir --no-binary=h5py h5py==2.9.0
@@ -110,6 +111,10 @@ RUN pip install --no-cache-dir  \
                 GCR \
                 pyarrow \
                 ipython
+
+RUN pip install --no-cache-dir  tjpcov threadpoolctl
+
+
 
 ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
 # These prevent errors all over the place on NERSC

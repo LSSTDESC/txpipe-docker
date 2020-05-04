@@ -1,4 +1,4 @@
-all: base cosmosis firecrown
+all: base cosmosis firecrown tomo
 
 upload: base cosmosis firecrown
 	docker push joezuntz/txpipe-base
@@ -6,6 +6,7 @@ upload: base cosmosis firecrown
 	docker push joezuntz/txpipe
 	docker push joezuntz/txpipe-cosmosis
 	docker push joezuntz/txpipe-firecrown
+	docker push joezuntz/txpipe-tomo
 
 base:
 	cd txpipe-base && docker build -t joezuntz/txpipe-base .
@@ -19,5 +20,7 @@ cosmosis: base
 firecrown: base
 	cd txpipe-firecrown && docker build -t joezuntz/txpipe-firecrown .
 
+tomo: firecrown
+	cd txpipe-tomo && docker build -t joezuntz/txpipe-tomo .
 
-.PHONY: base cosmosis firecrown upload all
+.PHONY: base cosmosis firecrown tomo upload all

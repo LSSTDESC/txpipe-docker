@@ -11,6 +11,4 @@ RUN apt-get update -y \
 
 
 RUN pip install --no-cache-dir \
-                cosmosis-standalone \
-                tjpcov \
-                threadpoolctl
+                cosmosis-standalone
