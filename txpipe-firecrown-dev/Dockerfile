@@ -11,4 +11,3 @@ RUN apt-get update -y \
 
 
 RUN pip install --no-cache-dir cosmosis-standalone
-RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
