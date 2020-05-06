@@ -12,4 +12,4 @@ jobs:
       # This step uses GitHub's hello-world-javascript-action: https://github.com/actions/hello-world-javascript-action
       - name: run_make
         id: make1
-        run: make images
+        run: echo $(pwd) $(ls)
