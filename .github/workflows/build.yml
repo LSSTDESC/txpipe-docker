@@ -9,7 +9,8 @@ jobs:
     # This job runs on Linux
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
       # This step uses GitHub's hello-world-javascript-action: https://github.com/actions/hello-world-javascript-action
-      - name: run_make
-        id: make1
-        run: echo $(pwd) $(ls)
+    - name: run_make
+      id: make1
+      run: echo $(pwd) $(ls)
