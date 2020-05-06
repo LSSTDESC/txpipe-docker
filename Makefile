@@ -2,6 +2,10 @@ all: upload
 
 subimages=cosmosis firecrown firecrown-dev tomo
 
+pull:
+	# to support github pull to avoid complete rebuild
+	docker pull joezuntz/txpipe-base
+
 images: $(subimages)
 
 upload: $(subimages) base 
