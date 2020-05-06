@@ -113,6 +113,7 @@ RUN pip install --no-cache-dir  \
                 ipython
 
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
+RUN pip install --no-cache-dir  flexcode
 
 
 
