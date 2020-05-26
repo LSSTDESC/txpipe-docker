@@ -101,8 +101,8 @@ RUN mkdir -p /opt/namaster && cd /opt/namaster \
     && rm -rf /opt/namaster
 
 
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v0.2
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.16.0
+RUN pip install --no-cache-dir  ceci==1.0.1
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.17.0
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 RUN pip install --no-cache-dir  \
                 emcee \
