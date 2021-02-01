@@ -73,7 +73,7 @@ RUN pip install --no-cache-dir \
                 mlz_desc \
                 six
 
-RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@master
+RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@v4.1.5
 
 # Install h5py, recompiling so that we use HDF5 with MPI
 RUN pip install --no-cache-dir --no-binary=h5py h5py==2.9.0
@@ -100,20 +100,27 @@ RUN mkdir -p /opt/namaster && cd /opt/namaster \
     && python setup.py install \
     && rm -rf /opt/namaster
 
+RUN pip install --no-cache-dir  flexcode
+RUN pip install --no-cache-dir  psutil
+RUN pip install --no-cache-dir  pandas
 
-RUN pip install --no-cache-dir  ceci==1.0.1
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v0.17.0
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 RUN pip install --no-cache-dir  \
                 emcee \
                 pyccl \
                 camb \
-                GCR \
                 pyarrow \
                 ipython
 
+
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v1.1
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.1.0
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
+
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
-RUN pip install --no-cache-dir  flexcode
+RUN pip install --no-cache-dir  xgboost==1.1.0
+RUN pip install --no-cache-dir  healsparse
+RUN pip install --no-cache-dir  parallel_statistics==0.10
+RUN pip install --no-cache-dir  sacc==0.4.5
 
 
 
@@ -122,3 +129,5 @@ ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
+
+WORKDIR /opt/txpipe

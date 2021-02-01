@@ -26,5 +26,4 @@ $(subimages): % : base txpipe-%/Dockerfile
 	cd txpipe-$@ && docker build -t joezuntz/txpipe-$@ .
 
 
-
-.PHONY: base $(subimages) upload all
+.PHONY: base $(subimages) upload all base images pull $(subimages)
