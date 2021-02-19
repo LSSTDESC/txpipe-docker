@@ -5,8 +5,7 @@ ENV PYTHONPATH ${PYTHONPATH}:/opt/firecrown
 
 
 RUN apt-get update -y \
-    && apt-get install -y \
-    && cmake \
+    && apt-get install -y cmake \
     && apt-get clean all
 
 

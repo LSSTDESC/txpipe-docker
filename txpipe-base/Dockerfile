@@ -30,9 +30,9 @@ RUN mkdir /opt/mpi4py && cd /opt/mpi4py \
 
 # Need to install manually because we want MPI-enabled version
 RUN mkdir /opt/hdf && cd /opt/hdf \
-    && wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz \
-    && tar xvf hdf5-1.10.5.tar.gz \
-    && cd hdf5-1.10.5 \
+    && wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz \
+    && tar xvf hdf5-1.12.0.tar.gz \
+    && cd hdf5-1.12.0 \
     && ./configure --enable-parallel --prefix=/usr/local CC=mpicc \
     && make \
     && make install \
@@ -67,7 +67,7 @@ RUN pip install --no-cache-dir \
                 astropy==3.2.1 \
                 scipy==1.3.1 \
                 fitsio==0.9.11 \
-                healpy==1.12.9 \
+                healpy==1.14.0 \
                 descformats \
                 sacc \
                 mlz_desc \
@@ -76,29 +76,22 @@ RUN pip install --no-cache-dir \
 RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@v4.1.5
 
 # Install h5py, recompiling so that we use HDF5 with MPI
-RUN pip install --no-cache-dir --no-binary=h5py h5py==2.9.0
+RUN pip install --no-cache-dir --no-binary=h5py h5py==3.1.0
 
 # Manual namaster install
-RUN mkdir -p /opt/namaster && cd /opt/namaster \
-    && git clone https://github.com/Libsharp/libsharp \
-    && cd libsharp \
-    && autoconf \
-    && ./configure --enable-pic  --enable-openmp \
-    && make \
-    && cp auto/lib/* /usr/local/lib/ \
-    && cp auto/include/* /usr/local/include/ \
-    && rm -rf /opt/namaster
+# RUN mkdir -p /opt/namaster && cd /opt/namaster \
+#     && git clone https://github.com/Libsharp/libsharp \
+#     && cd libsharp \
+#     && autoconf \
+#     && ./configure --enable-pic  --enable-openmp \
+#     && make \
+#     && cp -v auto/lib/* /usr/local/lib/ \
+#     && cp -v auto/include/* /usr/local/include/ \
+#     && rm -rf /opt/namaster
 
 
 # Manual namaster install
-RUN mkdir -p /opt/namaster && cd /opt/namaster \
-    && git clone https://github.com/LSSTDESC/NaMaster \
-    && cd NaMaster \
-    && ./configure --enable-openmp \
-    && make  \
-    && make install \
-    && python setup.py install \
-    && rm -rf /opt/namaster
+RUN pip install pymaster
 
 RUN pip install --no-cache-dir  flexcode
 RUN pip install --no-cache-dir  psutil
@@ -106,14 +99,14 @@ RUN pip install --no-cache-dir  pandas
 
 RUN pip install --no-cache-dir  \
                 emcee \
-                pyccl \
                 camb \
                 pyarrow \
                 ipython
 
+RUN pip install git+https://github.com/LSSTDESC/CCL@v2.2.0
 
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v1.1
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.1.0
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.2.2
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
