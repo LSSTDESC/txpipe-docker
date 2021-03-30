@@ -73,7 +73,7 @@ RUN pip install --no-cache-dir \
                 mlz_desc \
                 six
 
-RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@v4.1.5
+RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@main
 
 # Install h5py, recompiling so that we use HDF5 with MPI
 RUN pip install --no-cache-dir --no-binary=h5py h5py==3.1.0
@@ -105,14 +105,15 @@ RUN pip install --no-cache-dir  \
 
 RUN pip install git+https://github.com/LSSTDESC/CCL@v2.2.0
 
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/ceci@v1.1
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.2.2
+RUN pip install --no-cache-dir  ceci==v1.3
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.3.0
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
 RUN pip install --no-cache-dir  xgboost==1.1.0
 RUN pip install --no-cache-dir  healsparse
-RUN pip install --no-cache-dir  parallel_statistics==0.10
+RUN pip install --no-cache-dir  numba
+RUN pip install --no-cache-dir  parallel_statistics==0.12
 RUN pip install --no-cache-dir  sacc==0.4.5
 
 
