@@ -1,10 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER joezuntz@googlemail.com
 #Joe's note to himself.  Compile this with: docker build -t joezuntz/cosmosis-base .
 #then docker push joezuntz/cosmosis-base
 
 # Basic compilers and tools dependencies
-RUN apt-get update -y && apt-get install -y gcc g++ gfortran \
+RUN apt-get update -y && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc g++ gfortran \
     cmake swig wget make libopenblas-dev libchealpix-dev \
     pkg-config curl python3 python3-distutils python3-dev python3-pip \
     libcfitsio-dev  libfftw3-dev   git  libgsl-dev autoconf \
@@ -22,11 +22,7 @@ RUN mkdir /opt/mpich && cd /opt/mpich \
 
 
 # Also need a manual install of mpi4py so that it uses the right libraries - pip seems not to work
-RUN mkdir /opt/mpi4py && cd /opt/mpi4py \
-    && wget https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-3.0.2.tar.gz \
-    && tar -zxvf mpi4py-3.0.2.tar.gz && cd mpi4py-3.0.2 && python setup.py install \
-    && rm -rf /opt/mpi4py
-
+RUN pip install -vv --no-binary=mpi4py mpi4py
 
 # Need to install manually because we want MPI-enabled version
 RUN mkdir /opt/hdf && cd /opt/hdf \
@@ -52,9 +48,11 @@ RUN pip install --no-cache-dir --upgrade pip
 
 # fitsio needs this to be installed first
 
-RUN pip install --no-cache-dir numpy==1.17
+RUN pip install --no-cache-dir numpy>=1.17
 
 RUN pip install --no-cache-dir cffi
+
+RUN apt-get install -y libbz2-dev && apt-get clean all
 
 # Basic python requirements
 RUN pip install --no-cache-dir \
@@ -62,21 +60,24 @@ RUN pip install --no-cache-dir \
                 nose==1.3.7 \
                 pyparsing==2.2.0 \
                 pyyaml==5.1.2 \
-                scikit-learn==0.21.3 \
-                setuptools==38.5.2 \
-                astropy==3.2.1 \
-                scipy==1.3.1 \
-                fitsio==0.9.11 \
-                healpy==1.14.0 \
+                scikit-learn==0.24.2 \
+                setuptools==57.4.0 \
+                astropy==4.1 \
+                scipy>=1.4 \
+                fitsio==1.1.4 \
+                healpy==1.15.0 \
                 descformats \
-                sacc \
                 mlz_desc \
                 six
 
-RUN pip install --no-cache-dir  git+https://github.com/rmjarvis/TreeCorr@main
+RUN pip install --no-cache-dir  pandas
+RUN pip install --no-cache-dir  psutil
+
 
 # Install h5py, recompiling so that we use HDF5 with MPI
 RUN pip install --no-cache-dir --no-binary=h5py h5py==3.1.0
+
+RUN pip install --no-cache-dir  treecorr==4.2.3
 
 # Manual namaster install
 # RUN mkdir -p /opt/namaster && cd /opt/namaster \
@@ -89,13 +90,28 @@ RUN pip install --no-cache-dir --no-binary=h5py h5py==3.1.0
 #     && cp -v auto/include/* /usr/local/include/ \
 #     && rm -rf /opt/namaster
 
+RUN pip install --no-cache-dir  xgboost==1.1.0
+RUN pip install --no-cache-dir  healsparse
+RUN pip install --no-cache-dir  numba
+# fixes a tab completion bug in ipython
+# https://github.com/ipython/ipython/issues/12748
+RUN pip install --no-cache-dir  jedi==0.17.2
+
+RUN apt-get update -y \
+    && apt-get install -y cmake \
+    && apt-get clean all
+
+RUN apt-get update -y && apt-get install -y graphviz libgraphviz-dev pkg-config && apt-get clean all
+
+
+RUN pip install --no-cache-dir cosmosis-standalone
 
 # Manual namaster install
 RUN pip install pymaster
 
 RUN pip install --no-cache-dir  flexcode
-RUN pip install --no-cache-dir  psutil
-RUN pip install --no-cache-dir  pandas
+
+
 
 RUN pip install --no-cache-dir  \
                 emcee \
@@ -105,16 +121,13 @@ RUN pip install --no-cache-dir  \
 
 RUN pip install git+https://github.com/LSSTDESC/CCL@v2.2.0
 
-RUN pip install --no-cache-dir  ceci==v1.3
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.3.0
+RUN pip install --no-cache-dir  ceci[parsl,cwl,test]==v1.4.1
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.3.4
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
-RUN pip install --no-cache-dir  xgboost==1.1.0
-RUN pip install --no-cache-dir  healsparse
-RUN pip install --no-cache-dir  numba
-RUN pip install --no-cache-dir  parallel_statistics==0.12
-RUN pip install --no-cache-dir  sacc==0.4.5
+RUN pip install --no-cache-dir  parallel_statistics
+RUN pip install --no-cache-dir  sacc
 
 
 
@@ -125,3 +138,29 @@ ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
 
 WORKDIR /opt/txpipe
+
+
+
+
+RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
+RUN pip install --no-cache-dir pygraphviz
+
+
+# I had to split these up - they are all just installing cuda stuff,
+# but on my laptop I kept getting "Bad request error 400" when installing
+# lots of stuff at once
+RUN apt-get update -y \
+    && apt-get install -y libpulse-mainloop-glib0 \
+    && apt-get clean all
+
+RUN apt-get update -y \
+    && apt-get install -y nvidia-cuda-dev \
+    && apt-get clean all
+
+RUN apt-get update -y \
+    && apt-get install -y nvidia-cuda-toolkit \
+    && apt-get clean all
+
+RUN pip install --no-cache-dir cupy-cuda101
+
+RUN pip install --no-cache-dir git+https://github.com/joezuntz/xpysom@torus
