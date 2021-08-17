@@ -1,16 +1,27 @@
-name: Greet Everyone
-# This workflow is triggered on pushes to the repository.
-on: [push]
+name: Build Docker Image
+
+on:
+  push:
+    branches: 
+      - master
+  
 
 jobs:
   build:
-    # Job name is Greeting
-    name: Make
-    # This job runs on Linux
-    runs-on: ubuntu-latest
+    name: Build on Ubuntu
+    runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-      # This step uses GitHub's hello-world-javascript-action: https://github.com/actions/hello-world-javascript-action
-    - name: run_make
-      id: make1
-      run: make pull images
+      - name: Check Disk Space
+        run: df -h && sudo apt-get clean && df -h 
+      - name: Docker login
+        run: echo '${{ secrets.DOCKERHUB_TOKEN }}' | docker login --username joezuntz --password-stdin
+      - name: checkout txpipe-docker
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name : Docker prune
+        run: sudo docker system prune && df -h 
+      - name: Docker build
+        run: cd txpipe-base && docker build  -t joezuntz/txpipe-auto
+      - name: Docker push
+        run: docker push joezuntz/txpipe-auto

@@ -121,8 +121,28 @@ RUN pip install --no-cache-dir  \
 
 RUN pip install git+https://github.com/LSSTDESC/CCL@v2.2.0
 
-RUN pip install --no-cache-dir  ceci[parsl,cwl,test]==v1.4.1
-RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.3.4
+RUN pip install --no-cache-dir pygraphviz
+
+# but on my laptop I kept getting "Bad request error 400" when installing
+# lots of stuff at once
+RUN apt-get update -y \
+    && apt-get install -y libpulse-mainloop-glib0 \
+    && apt-get clean all
+
+RUN apt-get update -y \
+    && apt-get install -y nvidia-cuda-dev \
+    && apt-get clean all
+
+RUN apt-get update -y \
+    && apt-get install -y nvidia-cuda-toolkit \
+    && apt-get clean all
+
+RUN pip install --no-cache-dir cupy-cuda101
+
+RUN pip install --no-cache-dir dask[distributed] bokeh git+https://github.com/joezuntz/dask-mpi
+
+RUN pip install --no-cache-dir  ceci[parsl,cwl,test]==v1.5
+RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/gcr-catalogs@v1.3.5
 RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
@@ -143,24 +163,14 @@ WORKDIR /opt/txpipe
 
 
 RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
-RUN pip install --no-cache-dir pygraphviz
 
 
 # I had to split these up - they are all just installing cuda stuff,
-# but on my laptop I kept getting "Bad request error 400" when installing
-# lots of stuff at once
-RUN apt-get update -y \
-    && apt-get install -y libpulse-mainloop-glib0 \
-    && apt-get clean all
 
-RUN apt-get update -y \
-    && apt-get install -y nvidia-cuda-dev \
-    && apt-get clean all
-
-RUN apt-get update -y \
-    && apt-get install -y nvidia-cuda-toolkit \
-    && apt-get clean all
-
-RUN pip install --no-cache-dir cupy-cuda101
 
 RUN pip install --no-cache-dir git+https://github.com/joezuntz/xpysom@torus
+RUN pip install --no-cache-dir --upgrade git+https://github.com/LSSTDESC/ceci
+RUN pip install --no-cache-dir mockmpi
+RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/qp
+RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/desc_bpz
+
