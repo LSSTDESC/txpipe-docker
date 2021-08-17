@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 MAINTAINER joezuntz@googlemail.com
-#Joe's note to himself.  Compile this with: docker build -t joezuntz/cosmosis-base .
-#then docker push joezuntz/cosmosis-base
 
 # Basic compilers and tools dependencies
 RUN apt-get update -y && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc g++ gfortran \
@@ -78,21 +76,10 @@ RUN pip install --no-cache-dir  psutil
 RUN pip install --no-cache-dir --no-binary=h5py h5py==3.1.0
 
 RUN pip install --no-cache-dir  treecorr==4.2.3
-
-# Manual namaster install
-# RUN mkdir -p /opt/namaster && cd /opt/namaster \
-#     && git clone https://github.com/Libsharp/libsharp \
-#     && cd libsharp \
-#     && autoconf \
-#     && ./configure --enable-pic  --enable-openmp \
-#     && make \
-#     && cp -v auto/lib/* /usr/local/lib/ \
-#     && cp -v auto/include/* /usr/local/include/ \
-#     && rm -rf /opt/namaster
-
 RUN pip install --no-cache-dir  xgboost==1.1.0
 RUN pip install --no-cache-dir  healsparse
 RUN pip install --no-cache-dir  numba
+
 # fixes a tab completion bug in ipython
 # https://github.com/ipython/ipython/issues/12748
 RUN pip install --no-cache-dir  jedi==0.17.2
@@ -103,15 +90,12 @@ RUN apt-get update -y \
 
 RUN apt-get update -y && apt-get install -y graphviz libgraphviz-dev pkg-config && apt-get clean all
 
-
 RUN pip install --no-cache-dir cosmosis-standalone
 
 # Manual namaster install
 RUN pip install pymaster
 
 RUN pip install --no-cache-dir  flexcode
-
-
 
 RUN pip install --no-cache-dir  \
                 emcee \
@@ -123,6 +107,7 @@ RUN pip install git+https://github.com/LSSTDESC/CCL@v2.2.0
 
 RUN pip install --no-cache-dir pygraphviz
 
+# I had to split these up - they are all just installing cuda stuff,
 # but on my laptop I kept getting "Bad request error 400" when installing
 # lots of stuff at once
 RUN apt-get update -y \
@@ -148,6 +133,12 @@ RUN pip install --no-cache-dir  git+https://github.com/LSSTDESC/desc-dc2-dm-data
 RUN pip install --no-cache-dir  tjpcov threadpoolctl
 RUN pip install --no-cache-dir  parallel_statistics
 RUN pip install --no-cache-dir  sacc
+RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
+RUN pip install --no-cache-dir git+https://github.com/joezuntz/xpysom@torus
+RUN pip install --no-cache-dir --upgrade git+https://github.com/LSSTDESC/ceci
+RUN pip install --no-cache-dir mockmpi
+RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/qp
+RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/desc_bpz
 
 
 
@@ -159,18 +150,4 @@ CMD ["/bin/bash", "-l"]
 
 WORKDIR /opt/txpipe
 
-
-
-
-RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
-
-
-# I had to split these up - they are all just installing cuda stuff,
-
-
-RUN pip install --no-cache-dir git+https://github.com/joezuntz/xpysom@torus
-RUN pip install --no-cache-dir --upgrade git+https://github.com/LSSTDESC/ceci
-RUN pip install --no-cache-dir mockmpi
-RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/qp
-RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/desc_bpz
 
