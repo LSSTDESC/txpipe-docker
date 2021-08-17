@@ -22,6 +22,6 @@ jobs:
       - name : Docker prune
         run: sudo docker system prune && df -h 
       - name: Docker build
-        run: cd txpipe-base && docker build  -t joezuntz/txpipe-auto
+        run: cd txpipe-base && docker build  -t joezuntz/txpipe-auto .
       - name: Docker push
         run: docker push joezuntz/txpipe-auto
