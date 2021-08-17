@@ -13,15 +13,23 @@ jobs:
     steps:
       - name: Check Disk Space
         run: df -h && sudo apt-get clean && df -h 
+
       - name: Docker login
         run: echo '${{ secrets.DOCKERHUB_TOKEN }}' | docker login --username joezuntz --password-stdin
+
       - name: checkout txpipe-docker
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
       - name : Docker prune
         run: sudo docker system prune && df -h 
+
+      - name : Docker pull
+        run: docker pull joezuntz/txpipe-auto
+
       - name: Docker build
         run: cd txpipe-base && docker build  -t joezuntz/txpipe-auto .
+
       - name: Docker push
         run: docker push joezuntz/txpipe-auto
