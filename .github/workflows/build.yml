@@ -40,6 +40,7 @@ jobs:
         with:
           builder: '${{ steps.buildx.outputs.name }}'
           context: ./txpipe-base
+          build-args: ["GITHUB_SHA=${GITHUB_SHA}"]
           file: ./txpipe-base/Dockerfile
           push: true
           tags: joezuntz/txpipe-auto
