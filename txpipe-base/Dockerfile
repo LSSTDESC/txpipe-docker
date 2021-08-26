@@ -149,6 +149,7 @@ ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
 
 WORKDIR /opt/txpipe
-ARG GITHUB_SHA
-ENV TXPIPE_AUTO_GITHUB_SHA=$GITHUB_SHA
+# This is provided by the github build environment
+ARG TX_DOCKER_VERSION
+ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
 
