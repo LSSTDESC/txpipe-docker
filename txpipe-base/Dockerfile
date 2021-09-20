@@ -60,7 +60,7 @@ RUN pip install --no-cache-dir \
                 pyyaml==5.1.2 \
                 scikit-learn==0.24.2 \
                 setuptools==57.4.0 \
-                astropy==4.1 \
+                astropy==4.3 \
                 scipy>=1.4 \
                 fitsio==1.1.4 \
                 healpy==1.15.0 \
@@ -135,12 +135,10 @@ RUN pip install --no-cache-dir  parallel_statistics
 RUN pip install --no-cache-dir  sacc
 RUN pip install --no-cache-dir git+https://github.com/LSSTDESC/firecrown@v0.4
 RUN pip install --no-cache-dir git+https://github.com/joezuntz/xpysom@torus
-RUN pip install --no-cache-dir --upgrade git+https://github.com/LSSTDESC/ceci
+
 RUN pip install --no-cache-dir mockmpi
 RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/qp
 RUN pip install --no-cache-dir git+git://github.com/LSSTDESC/desc_bpz
-
-
 
 ENV PYTHONPATH ${PYTHONPATH}:/opt/txpipe
 # These prevent errors all over the place on NERSC
@@ -153,3 +151,4 @@ WORKDIR /opt/txpipe
 ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
 
+RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
