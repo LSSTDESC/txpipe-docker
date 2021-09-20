@@ -13,7 +13,7 @@ RUN apt-get update -y \
 # I have checked and using the conda-forge supplied MPICH does not seem to work.
 # Do we even need to install this? Let's try without later.
 RUN apt-get update -y  \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran g++ \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
     && wget http://www.mpich.org/static/downloads/3.3.1/mpich-3.3.1.tar.gz \
@@ -22,7 +22,7 @@ RUN apt-get update -y  \
     && ./configure --disable-wrapper-rpath && make \
     && make install \
     && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc
+    && apt-get remove --purge -y gcc gfortran g++
 
 RUN conda install -y 'mpich=3.4.*=external_*' mpi4py
 
