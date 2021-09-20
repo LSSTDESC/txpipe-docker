@@ -17,8 +17,8 @@ RUN apt-get update -y  \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
     && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
-    && tar xvzf mpich-3.3.1.tar.gz \
-    && cd mpich-3.3.1 \
+    && tar xvzf mpich-3.4.2.tar.gz \
+    && cd mpich-3.4.2 \
     && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx && make \
     && make install \
     && rm -rf /opt/mpich \
