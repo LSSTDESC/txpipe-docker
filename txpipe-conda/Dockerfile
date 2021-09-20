@@ -13,16 +13,16 @@ RUN apt-get update -y \
 # I have checked and using the conda-forge supplied MPICH does not seem to work.
 # TODO disable gfortran - unlikely to be ABI compatible with the conda version we use for everything else
 RUN apt-get update -y  \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc g++ gfortran \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
     && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
     && tar xvzf mpich-3.4.2.tar.gz \
     && cd mpich-3.4.2 \
-    && ./configure --disable-wrapper-rpath && make \
-    && make -j 2 install \
+    && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx --with-device=ch3 && make \
+    && make install \
     && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc g++ gfortran
+    && apt-get remove --purge -y gcc
 
 # conda dependencies. As much as possible goes in here!
 RUN conda install -y scipy \
