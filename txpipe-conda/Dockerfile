@@ -11,7 +11,6 @@ RUN apt-get update -y \
 # compilers afterwards to save space but will try. We will use the conda gcc for everything
 # else if needed, though ideally everything would come through conda-forge for now.
 # I have checked and using the conda-forge supplied MPICH does not seem to work.
-# Do we even need to install this? Let's try without later.
 RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran g++ \
     && mkdir /opt/mpich \
@@ -24,11 +23,37 @@ RUN apt-get update -y  \
     && rm -rf /opt/mpich \
     && apt-get remove --purge -y gcc gfortran g++
 
-RUN conda install -y 'mpich=3.4.*=external_*' mpi4py
+# conda dependencies
+RUN conda install -y scipy \
+                     matplotlib \
+                     psutil \
+                     numpy \
+                     pandas \
+                     dask \
+                     scikit-learn \
+                     'mpich=3.4.*=external_*' \
+                     'h5py=*=mpi_mpich_*'\
+                     mpi4py \
+                     camb \
+                     healpy \
+                     fitsio \
+                     astropy \
+                     pyccl \
+                     treecorr \
+                     namaster \
+                     healsparse \
+                     qp
 
-# RUN conda install -y scipy matplotlib camb healpy psutil numpy scikit-learn fitsio pandas astropy pyccl mpi4py treecorr namaster  dask 'mpich=3.4.*=external_*' 'h5py=*=mpi_mpich_*'
-
-# pip installations
-#RUN pip install threadpoolctl ceci sacc parallel_statistics git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs  git+git://github.com/LSSTDESC/qp git+git://github.com/LSSTDESC/desc_bpz healsparse flexcode  xgboost==1.1.1  git+https://github.com/dask/dask-mpi cosmosis-standalone git+https://github.com/LSSTDESC/firecrown@v0.4 git+git://github.com/LSSTDESC/desc_bpz git+git://github.com/LSSTDESC/qp
-
-#RUN /bin/bash -c "source activate mro_env"
+# pip dependencies
+RUN pip install threadpoolctl \
+                ceci \
+                sacc \
+                parallel_statistics \
+                git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
+                git+git://github.com/LSSTDESC/desc_bpz \
+                flexcode \
+                cosmosis-standalone \
+                xgboost==1.1.1 \
+                git+https://github.com/dask/dask-mpi \
+                git+https://github.com/LSSTDESC/firecrown@v0.4 \
+                git+git://github.com/LSSTDESC/desc_bpz
