@@ -44,16 +44,16 @@ RUN conda install -y scipy \
                      healsparse \
                      qp
 
-# pip dependencies
-RUN pip install threadpoolctl \
-                ceci \
-                sacc \
-                parallel_statistics \
-                git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+git://github.com/LSSTDESC/desc_bpz \
-                flexcode \
-                cosmosis-standalone \
-                xgboost==1.1.1 \
-                git+https://github.com/dask/dask-mpi \
-                git+https://github.com/LSSTDESC/firecrown@v0.4 \
-                git+git://github.com/LSSTDESC/desc_bpz
+# # pip dependencies
+# RUN pip install threadpoolctl \
+#                 ceci \
+#                 sacc \
+#                 parallel_statistics \
+#                 git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
+#                 git+git://github.com/LSSTDESC/desc_bpz \
+#                 flexcode \
+#                 cosmosis-standalone \
+#                 xgboost==1.1.1 \
+#                 git+https://github.com/dask/dask-mpi \
+#                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
+#                 git+git://github.com/LSSTDESC/desc_bpz
