@@ -42,7 +42,8 @@ RUN conda install -y scipy \
                      treecorr \
                      namaster \
                      healsparse \
-                     qp
+                     qp \
+                     compilers
 
 # # pip dependencies
 # RUN pip install threadpoolctl \
