@@ -16,7 +16,7 @@ RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/3.3.1/mpich-3.3.1.tar.gz \
+    && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
     && tar xvzf mpich-3.3.1.tar.gz \
     && cd mpich-3.3.1 \
     && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx && make \
@@ -24,7 +24,7 @@ RUN apt-get update -y  \
     && rm -rf /opt/mpich \
     && apt-get remove --purge -y gcc
 
-# conda dependencies
+# conda dependencies. As much as possible goes in here!
 RUN conda install -y scipy \
                      matplotlib \
                      psutil \
