@@ -9,9 +9,8 @@ RUN apt-get update -y \
 # We need a C compiler temporarily to install MPICH, which we want so that we use
 # vendored MPI with conda. Not sure if we can get away with removing the gcc and g++
 # compilers afterwards to save space but will try. We will use the conda gcc for everything
-# else if needed, though ideally everything would come through conda-forge for now.
-# I have checked and using the conda-forge supplied MPICH does not seem to work.
-# TODO disable gfortran - unlikely to be ABI compatible with the conda version we use for everything else
+# else, though ideally everything would come through conda-forge.
+# I have found that using the conda-forge supplied MPICH does not work.
 RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
     && mkdir /opt/mpich \
@@ -25,6 +24,7 @@ RUN apt-get update -y  \
     && apt-get remove --purge -y gcc
 
 # conda dependencies. As much as possible goes in here!
+# should we be pinning versions?
 RUN conda install -y scipy \
                      matplotlib \
                      psutil \
@@ -45,6 +45,9 @@ RUN conda install -y scipy \
                      healsparse \
                      qp \
                      cosmosis-standalone \
+                     pygraphviz \
+                     cudatoolkit-dev \
+                     cupy \
                      compilers
 
 # pip dependencies
@@ -58,4 +61,5 @@ RUN pip install threadpoolctl \
                 xgboost==1.1.1 \
                 git+https://github.com/dask/dask-mpi \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
-                git+git://github.com/LSSTDESC/desc_bpz
+                git+git://github.com/LSSTDESC/desc_bpz \
+                git+https://github.com/LSSTDESC/desc-dc2-dm-data

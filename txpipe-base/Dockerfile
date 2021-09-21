@@ -150,5 +150,9 @@ WORKDIR /opt/txpipe
 # This is provided by the github build environment
 ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
+ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 
+RUN ln -s /usr/bin/srun /global/common/shared/das/container_proxy/client
+# avoid stuff in ~/.local getting mixed in on NERSC
+ENV PYTHONNOUSERSITE=1
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
