@@ -71,6 +71,9 @@ ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
 ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 
+# will get obscured on mount
+RUN mkdir -p /global/common/shared/das/container_proxy/
+RUN touch /global/common/shared/das/container_proxy/client
 RUN ln -s /usr/bin/srun /global/common/shared/das/container_proxy/client
 
 # avoid stuff in ~/.local getting mixed in on NERSC
