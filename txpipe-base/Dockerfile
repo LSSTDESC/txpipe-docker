@@ -12,10 +12,14 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 
 # Manual installation of mpich seems to be required to work on NERSC
-RUN mkdir /opt/mpich && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/3.3.1/mpich-3.3.1.tar.gz \
-    && tar xvzf mpich-3.3.1.tar.gz &&  cd mpich-3.3.1 && ./configure --disable-wrapper-rpath && make -j4 \
-    && make install && rm -rf /opt/mpich
+RUN mkdir /opt/mpich \
+    && cd /opt/mpich \
+    && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
+    && tar xvzf mpich-3.4.2.tar.gz \
+    && cd mpich-3.4.2 \
+    && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx --with-device=ch3 && make \
+    && make install \
+    && rm -rf /opt/mpich
 
 
 

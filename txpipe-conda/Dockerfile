@@ -63,3 +63,18 @@ RUN pip install threadpoolctl \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
                 git+git://github.com/LSSTDESC/desc_bpz \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data
+
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+CMD ["/bin/bash", "-l"]
+ARG TX_DOCKER_VERSION
+ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
+ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
+
+RUN ln -s /usr/bin/srun /global/common/shared/das/container_proxy/client
+
+# avoid stuff in ~/.local getting mixed in on NERSC
+ENV PYTHONNOUSERSITE=1
+
+# might not work, let's find out
+RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
