@@ -46,9 +46,9 @@ RUN conda install -y scipy \
                      qp \
                      cosmosis-standalone \
                      pygraphviz \
-                     cudatoolkit-dev \
-                     cupy \
                      compilers
+                     # cudatoolkit-dev \
+                     # cupy
 
 # pip dependencies
 RUN pip install threadpoolctl \
