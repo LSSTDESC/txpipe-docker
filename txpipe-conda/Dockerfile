@@ -74,10 +74,10 @@ ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 # will get obscured on mount
 RUN mkdir -p /global/common/shared/das/container_proxy/
 RUN touch /global/common/shared/das/container_proxy/client
-RUN ln -s /usr/bin/srun /global/common/shared/das/container_proxy/client
+RUN ln -s  /global/common/shared/das/container_proxy/client /usr/bin/srun
 
 # avoid stuff in ~/.local getting mixed in on NERSC
 ENV PYTHONNOUSERSITE=1
 
 # might not work, let's find out
-RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
+# RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
