@@ -80,4 +80,4 @@ RUN ln -s  /global/common/shared/das/container_proxy/client /usr/bin/srun
 ENV PYTHONNOUSERSITE=1
 
 # might not work, let's find out
-# RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
+RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
