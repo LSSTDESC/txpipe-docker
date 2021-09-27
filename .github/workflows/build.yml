@@ -58,7 +58,7 @@ jobs:
             TX_DOCKER_VERSION=${{ github.sha }}
           file: ./txpipe-conda/Dockerfile
           push: true
-          tags: joezuntz/txpipe-conda
+          tags: joezuntz/txpipe
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
