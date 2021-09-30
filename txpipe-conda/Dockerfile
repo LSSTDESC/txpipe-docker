@@ -52,7 +52,7 @@ RUN conda install -y scipy \
 
 # pip dependencies
 RUN pip install threadpoolctl \
-                ceci \
+                ceci>=1.6 \
                 sacc \
                 parallel_statistics \
                 git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
