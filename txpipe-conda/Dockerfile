@@ -62,7 +62,8 @@ RUN pip install threadpoolctl \
                 git+https://github.com/dask/dask-mpi \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
                 git+git://github.com/LSSTDESC/desc_bpz \
-                git+https://github.com/LSSTDESC/desc-dc2-dm-data
+                git+https://github.com/LSSTDESC/desc-dc2-dm-data \
+                mockmpi
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
