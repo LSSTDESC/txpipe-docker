@@ -71,6 +71,7 @@ CMD ["/bin/bash", "-l"]
 ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
 ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
+ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Make a link to something that will only appear later
 RUN mkdir -p /global/common/shared/das/container_proxy/ \
