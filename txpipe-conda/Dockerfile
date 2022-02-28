@@ -1,4 +1,4 @@
-FROM condaforge/miniforge3:4.10.3-5
+FROM condaforge/miniforge3:4.11.0-4
 MAINTAINER joezuntz@googlemail.com
 
 # Make, which we will need for everything
@@ -23,16 +23,17 @@ RUN apt-get update -y  \
     && rm -rf /opt/mpich \
     && apt-get remove --purge -y gcc
 
+
 # conda dependencies. As much as possible goes in here!
 # should we be pinning versions?
-RUN conda install -y scipy \
-                     matplotlib \
+RUN conda install -y scipy=1.8.0 \
+                     matplotlib=3.5.1 \
                      psutil \
-                     numpy \
-                     pandas \
+                     numpy=1.22.2 \
+                     pandas=1.4.1 \
                      dask \
                      scikit-learn \
-                     'mpich=3.4.*=external_*' \
+                     'mpich>=3.4.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
                      camb \
@@ -40,7 +41,7 @@ RUN conda install -y scipy \
                      fitsio \
                      astropy \
                      pyccl \
-                     treecorr \
+                     "treecorr>=4.2.6" \
                      namaster \
                      healsparse \
                      qp \
@@ -55,13 +56,13 @@ RUN pip install threadpoolctl \
                 ceci>=1.8 \
                 sacc>=0.4.9 \
                 parallel_statistics \
-                git+git://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+git://github.com/LSSTDESC/desc_bpz \
+                git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
+                git+https://github.com/LSSTDESC/desc_bpz \
                 flexcode \
                 xgboost==1.1.1 \
                 git+https://github.com/dask/dask-mpi \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
-                git+git://github.com/LSSTDESC/desc_bpz \
+                git+https://github.com/LSSTDESC/desc_bpz \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
                 mockmpi
 
@@ -84,3 +85,4 @@ ENV PYTHONNOUSERSITE=1
 
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
+WORKDIR /opt/TXPipe
