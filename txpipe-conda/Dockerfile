@@ -66,7 +66,7 @@ RUN pip install threadpoolctl \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 pzflow \
                 git+https://github.com/LSSTDESC/Delight \
-                Cython \
+                Cython
 
 
 ENV LC_ALL C.UTF-8
