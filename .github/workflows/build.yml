@@ -46,7 +46,7 @@ jobs:
             TX_RELEASE_TAG=${{ steps.find_release_tag.outputs.tag }}
           file: ./txpipe-conda/Dockerfile
           push: true
-          tags: joezuntz/txpipe:latest joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }}
+          tags: joezuntz/txpipe:latest , joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
