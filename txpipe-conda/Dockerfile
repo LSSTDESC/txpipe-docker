@@ -1,4 +1,4 @@
-FROM condaforge/miniforge3:4.11.0-4
+FROM condaforge/mambaforge:4.11.0-4
 MAINTAINER joezuntz@googlemail.com
 
 # Make, which we will need for everything
@@ -10,7 +10,8 @@ RUN apt-get update -y \
 # vendored MPI with conda. Not sure if we can get away with removing the gcc and g++
 # compilers afterwards to save space but will try. We will use the conda gcc for everything
 # else, though ideally everything would come through conda-forge.
-# I have found that using the conda-forge supplied MPICH does not work.
+# I have found that using the conda-forge supplied MPICH does not work
+# with shifter on NERSC.
 RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
     && mkdir /opt/mpich \
@@ -26,7 +27,7 @@ RUN apt-get update -y  \
 
 # conda dependencies. As much as possible goes in here!
 # should we be pinning versions?
-RUN conda install -y scipy=1.8.0 \
+RUN mamba install -y scipy=1.8.0 \
                      matplotlib=3.5.1 \
                      psutil \
                      numpy=1.22.2 \
@@ -41,15 +42,12 @@ RUN conda install -y scipy=1.8.0 \
                      fitsio \
                      astropy \
                      pyccl \
-                     "treecorr>=4.2.6" \
                      namaster \
                      healsparse \
                      qp \
                      cosmosis-standalone \
                      pygraphviz \
                      compilers
-                     # cudatoolkit-dev \
-                     # cupy
 
 # pip dependencies
 RUN pip install threadpoolctl \
@@ -64,13 +62,20 @@ RUN pip install threadpoolctl \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
                 git+https://github.com/LSSTDESC/desc_bpz \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
-                mockmpi
+                mockmpi \
+                git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
+                pzflow \
+                git+https://github.com/LSSTDESC/Delight \
+                Cython \
+
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
 ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
+ARG TX_RELEASE_TAG
+ENV TX_RELEASE_TAG=$TX_RELEASE_TAG
 ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 ENV LD_LIBRARY_PATH /usr/local/lib
 

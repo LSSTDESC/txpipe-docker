@@ -1,12 +1,8 @@
 name: Build Docker Image
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -15,6 +11,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Find Release Tag
+        id: find_release_tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -43,44 +43,15 @@ jobs:
           context: ./txpipe-conda
           build-args: |
             TX_DOCKER_VERSION=${{ github.sha }}
+            TX_RELEASE_TAG=${{ steps.find_release_tag.outputs.tag }}
           file: ./txpipe-conda/Dockerfile
           push: true
-          tags: joezuntz/txpipe
+          tags: joezuntz/txpipe:latest joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      - name: Build conda-based docker image dev version
-        id: docker_build_dev
-        uses: docker/build-push-action@v2
-        with:
-          builder: '${{ steps.buildx.outputs.name }}'
-          context: ./txpipe-dev
-          build-args: |
-            TX_DOCKER_VERSION=${{ github.sha }}-dev
-          file: ./txpipe-dev/Dockerfile
-          push: true
-          tags: joezuntz/txpipe-dev
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-
-
-
-      # - name: Regular version
-      #   id: docker_build
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     builder: '${{ steps.buildx.outputs.name }}'
-      #     context: ./txpipe-base
-      #     build-args: |
-      #       TX_DOCKER_VERSION=${{ github.sha }}
-      #     file: ./txpipe-base/Dockerfile
-      #     push: true
-      #     tags: joezuntz/txpipe-auto
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new
