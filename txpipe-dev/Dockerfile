@@ -41,7 +41,6 @@ RUN mamba install -y scipy=1.8.0 \
                      healpy \
                      fitsio \
                      astropy \
-                     pyccl \
                      namaster \
                      healsparse \
                      qp \
@@ -66,7 +65,7 @@ RUN pip install threadpoolctl \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 pzflow \
-                git+https://github.com/LSSTDESC/Delight \
+                # git+https://github.com/LSSTDESC/Delight \
                 Cython
 
 
