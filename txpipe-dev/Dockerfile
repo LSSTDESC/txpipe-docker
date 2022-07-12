@@ -13,16 +13,16 @@ RUN apt-get update -y \
 # I have found that using the conda-forge supplied MPICH does not work
 # with shifter on NERSC.
 RUN apt-get update -y  \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
-    && tar xvzf mpich-3.4.2.tar.gz \
-    && cd mpich-3.4.2 \
-    && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx --with-device=ch3 && make \
+    && wget http://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
+    && tar xvzf mpich-4.0.2.tar.gz \
+    && cd mpich-4.0.2 \
+    && ./configure --disable-wrapper-rpath  --disable-cxx --with-device=ch3 && make \
     && make install \
     && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc
+    && apt-get remove --purge -y gcc gfortran
 
 
 # conda dependencies. As much as possible goes in here!
@@ -34,13 +34,14 @@ RUN mamba install -y scipy=1.8.0 \
                      pandas=1.4.1 \
                      dask \
                      scikit-learn \
-                     'mpich>=3.4.*=external_*' \
+                     'mpich=4.0.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
                      camb \
                      healpy \
                      fitsio \
                      astropy \
+                     pyccl \
                      namaster \
                      healsparse \
                      qp \
@@ -53,7 +54,6 @@ RUN pip install threadpoolctl \
                 ceci>=1.8 \
                 sacc>=0.4.9 \
                 parallel_statistics \
-                git+https://github.com/LSSTDESC/CCL \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
                 git+https://github.com/LSSTDESC/desc_bpz \
                 flexcode \
@@ -65,7 +65,7 @@ RUN pip install threadpoolctl \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 pzflow \
-                # git+https://github.com/LSSTDESC/Delight \
+                git+https://github.com/LSSTDESC/Delight \
                 Cython
 
 
@@ -91,9 +91,3 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
-
-RUN apt-get update -y \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y cmake  \
-    && apt-get clean all \
-    && conda uninstall -y pyccl \
-    && pip install pyccl

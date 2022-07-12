@@ -16,7 +16,7 @@ in2p3:
 	docker push joezuntz/in2p3
 
 dev: pull
-	cd txpipe-dev && docker build --progress=plain -t joezuntz/txpipe-dev .
+	cd txpipe-dev && DOCKER_BUILDKIT=0 docker build --progress=plain -t joezuntz/txpipe-dev .
 
 
 conda:

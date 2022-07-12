@@ -49,7 +49,7 @@ jobs:
           tags: joezuntz/txpipe:latest , joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-
+          driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=20971520
 
       - name: Move cache
         run: |

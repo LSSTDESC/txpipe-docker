@@ -13,16 +13,16 @@ RUN apt-get update -y \
 # I have found that using the conda-forge supplied MPICH does not work
 # with shifter on NERSC.
 RUN apt-get update -y  \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/3.4.2/mpich-3.4.2.tar.gz \
-    && tar xvzf mpich-3.4.2.tar.gz \
-    && cd mpich-3.4.2 \
-    && ./configure --disable-wrapper-rpath --disable-fortran --disable-cxx --with-device=ch3 && make \
+    && wget http://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
+    && tar xvzf mpich-4.0.2.tar.gz \
+    && cd mpich-4.0.2 \
+    && ./configure --disable-wrapper-rpath  --disable-cxx --with-device=ch3 && make \
     && make install \
     && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc
+    && apt-get remove --purge -y gcc gfortran
 
 
 # conda dependencies. As much as possible goes in here!
@@ -34,7 +34,7 @@ RUN mamba install -y scipy=1.8.0 \
                      pandas=1.4.1 \
                      dask \
                      scikit-learn \
-                     'mpich>=3.4.*=external_*' \
+                     'mpich=4.0.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
                      camb \
