@@ -41,7 +41,7 @@ RUN mamba install -y scipy=1.8.0 \
                      healpy \
                      fitsio \
                      astropy \
-                     pyccl \
+                     pyccl>=2.5.0 \
                      namaster \
                      healsparse \
                      qp \
