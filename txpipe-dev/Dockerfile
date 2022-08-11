@@ -41,7 +41,7 @@ RUN mamba install -y scipy=1.8.0 \
                      healpy \
                      fitsio \
                      astropy \
-                     pyccl \
+                     pyccl>=2.5.0 \
                      namaster \
                      healsparse \
                      qp \
@@ -66,8 +66,8 @@ RUN pip install threadpoolctl \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 pzflow \
                 git+https://github.com/LSSTDESC/Delight \
-                Cython
-
+                Cython \
+                git+https://github.com/jlvdb/hyperbolic
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
