@@ -47,7 +47,8 @@ RUN mamba install -y scipy=1.8.0 \
                      qp \
                      cosmosis-standalone \
                      pygraphviz \
-                     compilers
+                     compilers \
+                     guppy
 
 # pip dependencies
 RUN pip install threadpoolctl \
@@ -69,6 +70,8 @@ RUN pip install threadpoolctl \
                 Cython \
                 git+https://github.com/jlvdb/hyperbolic
 
+
+
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
@@ -84,6 +87,7 @@ RUN mkdir -p /global/common/shared/das/container_proxy/ \
     && touch /global/common/shared/das/container_proxy/client \
     && ln -s  /global/common/shared/das/container_proxy/client /usr/bin/srun \
     && rm -r /global
+
 
 # avoid stuff in ~/.local getting mixed in on NERSC
 ENV PYTHONNOUSERSITE=1

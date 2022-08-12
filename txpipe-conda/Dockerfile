@@ -47,7 +47,8 @@ RUN mamba install -y scipy=1.8.0 \
                      qp \
                      cosmosis-standalone \
                      pygraphviz \
-                     compilers
+                     compilers \
+                     guppy
 
 # pip dependencies
 RUN pip install threadpoolctl \
