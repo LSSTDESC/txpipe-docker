@@ -62,7 +62,7 @@ RUN pip install threadpoolctl \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 Cython \
-                pz-rail-hub==0.02
+                pz-rail-hub==0.0.2
 
 
 ENV LC_ALL C.UTF-8
