@@ -64,6 +64,7 @@ RUN pip install threadpoolctl \
                 Cython \
                 pz-rail-hub==0.0.2 \
                 pzflow \
+                pz-rail \
                 pz-rail-bpz \
                 pz-rail-delight \
                 pz-rail-flexzboost \
