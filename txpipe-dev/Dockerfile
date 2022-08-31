@@ -66,7 +66,10 @@ RUN pip install threadpoolctl \
                 pzflow \
                 pz-rail-bpz \
                 pz-rail-delight \
-                pz-rail-flexzboost
+                pz-rail-flexzboost \
+                git+https://github.com/LSSTDESC/Delight \
+                git+https://github.com/LSSTDESC/desc_bpz \
+                FlexCode[all]
 
 
 ENV LC_ALL C.UTF-8
