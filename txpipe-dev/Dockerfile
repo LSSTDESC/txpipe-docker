@@ -56,20 +56,13 @@ RUN pip install threadpoolctl \
                 sacc>=0.4.9 \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+https://github.com/LSSTDESC/desc_bpz \
-                flexcode \
-                xgboost==1.1.1 \
                 git+https://github.com/dask/dask-mpi \
                 git+https://github.com/LSSTDESC/firecrown@v0.4 \
-                git+https://github.com/LSSTDESC/desc_bpz \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
-                pzflow \
-                git+https://github.com/LSSTDESC/Delight \
                 Cython \
-                git+https://github.com/jlvdb/hyperbolic
-
+                pz-rail-hub==0.02
 
 
 ENV LC_ALL C.UTF-8
@@ -87,7 +80,6 @@ RUN mkdir -p /global/common/shared/das/container_proxy/ \
     && touch /global/common/shared/das/container_proxy/client \
     && ln -s  /global/common/shared/das/container_proxy/client /usr/bin/srun \
     && rm -r /global
-
 
 # avoid stuff in ~/.local getting mixed in on NERSC
 ENV PYTHONNOUSERSITE=1
