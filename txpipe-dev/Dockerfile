@@ -62,16 +62,8 @@ RUN pip install threadpoolctl \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 Cython \
-                pz-rail-hub==0.0.2 \
-                pzflow \
-                pz-rail \
-                pz-rail-bpz \
-                pz-rail-delight \
-                pz-rail-flexzboost \
-                git+https://github.com/LSSTDESC/Delight \
-                git+https://github.com/LSSTDESC/desc_bpz \
-                FlexCode[all]
-
+                pz-rail-hub==0.0.4 \
+                pzflow
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
@@ -95,3 +87,5 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
+RUN ls
+RUN pip install git+https://github.com/LSSTDESC/RAIL
