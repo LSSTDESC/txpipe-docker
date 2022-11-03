@@ -14,7 +14,10 @@ jobs:
 
       - name: Find Release Tag
         id: find_release_tag
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+          echo ::set-output name=date::$(date "+%Y-%m-%d")
+
 
       - name: Set up Docker Buildx
         id: buildx
@@ -46,7 +49,7 @@ jobs:
             TX_RELEASE_TAG=${{ steps.find_release_tag.outputs.tag }}
           file: ./txpipe-conda/Dockerfile
           push: true
-          tags: joezuntz/txpipe:latest , joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }}
+          tags: joezuntz/txpipe:latest , joezuntz/txpipe:${{ steps.find_release_tag.outputs.tag }} , joezuntz/txpipe:${{ steps.find_release_tag.outputs.date }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=20971520

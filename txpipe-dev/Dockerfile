@@ -87,5 +87,4 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
-run echo
 RUN pip install git+https://github.com/LSSTDESC/RAIL
