@@ -88,3 +88,4 @@ ENV PYTHONNOUSERSITE=1
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
 RUN pip install git+https://github.com/LSSTDESC/RAIL
+RUN pip install healpix
