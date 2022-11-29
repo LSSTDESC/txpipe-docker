@@ -45,10 +45,13 @@ RUN mamba install -y scipy=1.8.0 \
                      namaster \
                      healsparse \
                      qp \
-                     cosmosis-standalone \
+                     firecrown \
                      pygraphviz \
                      compilers \
-                     guppy3
+                     guppy3 \
+                     jax \
+                     dm-tree \
+                     cosmosis
 
 # pip dependencies
 RUN pip install threadpoolctl \
@@ -57,13 +60,13 @@ RUN pip install threadpoolctl \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
                 git+https://github.com/dask/dask-mpi \
-                git+https://github.com/LSSTDESC/firecrown@v0.4 \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 Cython \
                 pz-rail-hub==0.0.4 \
-                pzflow
+                pzflow \
+                healpix
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
