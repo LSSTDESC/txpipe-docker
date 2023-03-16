@@ -45,7 +45,7 @@ RUN mamba install -y scipy=1.8.0 \
                      namaster \
                      healsparse \
                      qp \
-                     firecrown \
+                     "firecrown>=1.4.0" \
                      pygraphviz \
                      compilers \
                      guppy3 \
