@@ -28,6 +28,9 @@ jobs:
       #     username: joezuntz
       #     password: '${{ secrets.DOCKERHUB_TOKEN }}'
 
+      - name: Log in to registry
+        # This is where you will update the personal access token to GITHUB_TOKEN
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
 
       - name: Build conda-based docker image
         id: docker_build
