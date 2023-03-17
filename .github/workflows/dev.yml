@@ -31,6 +31,13 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
 
+      - name: Extract metadata (tags, labels) forD ocker
+        id: meta
+        uses: docker/metadata-action@v
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
@@ -40,6 +47,7 @@ jobs:
             TX_DOCKER_VERSION=${{ github.sha }}
             TX_RELEASE_TAG=dev
           push: true
-          tags: joezuntz/txpipe-dev:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
