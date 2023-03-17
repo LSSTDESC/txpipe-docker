@@ -22,11 +22,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Docker login
-        uses: docker/login-action@v1
-        with:
-          username: joezuntz
-          password: '${{ secrets.DOCKERHUB_TOKEN }}'
+      # - name: Docker login
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: joezuntz
+      #     password: '${{ secrets.DOCKERHUB_TOKEN }}'
 
 
       - name: Build conda-based docker image
@@ -43,6 +43,9 @@ jobs:
           tags: joezuntz/txpipe-dev:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
 
       - name: Move cache
