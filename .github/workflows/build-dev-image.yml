@@ -45,8 +45,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./txpipe-dev
-          file: ./txpipe-dev/Dockerfile
+          context: ./txpipe-conda
+          file: ./txpipe-conda/Dockerfile
           build-args: |
             TX_DOCKER_VERSION=${{ github.sha }}
             TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
