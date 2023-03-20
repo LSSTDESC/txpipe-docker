@@ -53,6 +53,8 @@ RUN mamba install -y scipy=1.8.0 \
                      dm-tree \
                      cosmosis
 
+ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
+
 # pip dependencies
 RUN pip install threadpoolctl \
                 ceci>=1.8 \
