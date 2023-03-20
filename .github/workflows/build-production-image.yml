@@ -39,16 +39,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Get current date
-        id: date
-        run: 
-
-      - name: Find Release Tag
-        id: find_release_tag
+      - name: Get release info
+        id: release_info
         run: |
-          echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
+          echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -57,13 +52,13 @@ jobs:
           file: ./txpipe-dev/Dockerfile
           build-args: |
             TX_DOCKER_VERSION=${{ github.sha }}
-            TX_RELEASE_TAG=${{ steps.find_release_tag.outputs.tag }}
+            TX_RELEASE_TAG=${{ steps.release_info.outputs.tag }}
           push: true
           tags: 
           tags:
             - ghcr.io/joezuntz/txpipe-docker:latest
-            - ghcr.io/joezuntz/txpipe-docker:${{ steps.find_release_tag.outputs.tag }}
-            - ghcr.iojoezuntz/txpipe-docker:${{ steps.find_release_tag.outputs.date }}
+            - ghcr.io/joezuntz/txpipe-docker:${{ steps.release_info.outputs.tag }}
+            - ghcr.iojoezuntz/txpipe-docker:${{ steps.release_info.outputs.date }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
