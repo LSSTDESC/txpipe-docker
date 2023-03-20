@@ -51,9 +51,7 @@ jobs:
             TX_DOCKER_VERSION=${{ github.sha }}
             TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
           push: true
-          tags: 
-            - ghcr.io/joezuntz/txpipe-docker:dev
-            - ghcr.io/joezuntz/txpipe-docker:dev-${{ steps.release_info.outputs.date }}
+          tags: ghcr.io/joezuntz/txpipe-docker:dev,ghcr.io/joezuntz/txpipe-docker:dev-${{ steps.release_info.outputs.date }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
