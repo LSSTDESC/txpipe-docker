@@ -33,12 +33,6 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       - name: Get release info
         id: release_info
         run: |
@@ -56,9 +50,6 @@ jobs:
           push: true
           tags: 
           tags:
-            - ghcr.io/joezuntz/txpipe-docker:latest
-            - ghcr.io/joezuntz/txpipe-docker:${{ steps.release_info.outputs.tag }}
-            - ghcr.iojoezuntz/txpipe-docker:${{ steps.release_info.outputs.date }}
-          labels: ${{ steps.meta.outputs.labels }}
+            - ghcr.io/joezuntz/txpipe-docker:latest,ghcr.io/joezuntz/txpipe-docker:${{ steps.release_info.outputs.tag }},ghcr.iojoezuntz/txpipe-docker:${{ steps.release_info.outputs.date }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
