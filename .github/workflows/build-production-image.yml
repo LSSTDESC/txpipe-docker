@@ -1,4 +1,4 @@
-name: Build Docker Production Image
+name: Build Production Image
 
 on:
   release:
