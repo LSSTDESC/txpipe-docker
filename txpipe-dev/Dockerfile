@@ -58,7 +58,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 # pip dependencies
 RUN pip install threadpoolctl \
                 ceci>=1.8 \
-                sacc>=0.4.9 \
+                sacc>=0.7 \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
                 git+https://github.com/dask/dask-mpi \
@@ -68,7 +68,14 @@ RUN pip install threadpoolctl \
                 Cython \
                 pz-rail-hub==0.0.4 \
                 pzflow \
+                healpix \
+                jupyter \
+                nbconvert \
+                ipykernel \
                 healpix
+
+RUN pip install git+https://github.com/LSSTDESC/RAIL
+RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
@@ -92,9 +99,5 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
-RUN pip install git+https://github.com/LSSTDESC/RAIL
-RUN pip install healpix
-RUN pip install ipykernel
-RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
-RUN pip install "sacc==0.7"
-RUN pip install jupyter nbconvert
+
+
