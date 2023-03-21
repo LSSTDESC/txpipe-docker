@@ -1,0 +1,56 @@
+name: Build Developer Image
+
+on: workflow_dispatch
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  build:
+    name: Build Dev Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      # This only gets the date in this job, because
+      # there is no release tag
+      - name: Get release info
+        id: release_info
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./txpipe-dev
+          file: ./txpipe-dev/Dockerfile
+          # These arguments get passed into the docker image itself
+          build-args: |
+            TX_DOCKER_VERSION=${{ github.sha }}
+            TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
+            TX_RELEASE_DATE=${{ steps.release_info.outputs.date }}
+          push: true
+          # We use three tags for release builds:
+          # txpipe-dev
+          # txpipe-dev:latest
+          # txpipe-dev:<the date, e.g. 2023-03-21>
+          tags: ghcr.io/lsstdesc/txpipe-dev,ghcr.io/lsstdesc/txpipe-dev:latest,ghcr.io/lsstdesc/txpipe-dev:${{ steps.release_info.outputs.date }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
