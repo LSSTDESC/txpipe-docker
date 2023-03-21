@@ -12,3 +12,14 @@ Using this image
 ----------------
 
 See the TXPipe documentation for usage info.
+
+Versions
+--------
+
+Currently two versions are built.
+
+- Production builds are triggered whenever a release is created. They build from the txpipe-conda directory.
+
+- Development builds must be manually triggered using the "Run workflow" button under the Actions tab after selecting the job.
+
+The production builds are designed to be more stable, and should be used for most purposes. The development builds are to test TXPipe branches that need new things installed.
