@@ -25,11 +25,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
 
+      # This only gets the date in this job, because
+      # there is no release tag
       - name: Get release info
         id: release_info
         run: |
@@ -40,10 +41,16 @@ jobs:
         with:
           context: ./txpipe-dev
           file: ./txpipe-dev/Dockerfile
+          # These arguments get passed into the docker image itself
           build-args: |
             TX_DOCKER_VERSION=${{ github.sha }}
             TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
+            TX_RELEASE_DATE=${{ steps.release_info.outputs.date }}
           push: true
-          tags: ghcr.io/joezuntz/txpipe-dev,ghcr.io/joezuntz/txpipe-dev:latest,ghcr.io/joezuntz/txpipe-dev:${{ steps.release_info.outputs.date }}
+          # We use three tags for release builds:
+          # txpipe-dev
+          # txpipe-dev:latest
+          # txpipe-dev:<the date, e.g. 2023-03-21>
+          tags: ghcr.io/lsstdesc/txpipe-dev,ghcr.io/lsstdesc/txpipe-dev:latest,ghcr.io/lsstdesc/txpipe-dev:${{ steps.release_info.outputs.date }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
