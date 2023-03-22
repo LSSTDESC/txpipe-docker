@@ -42,8 +42,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./txpipe-conda
-          file: ./txpipe-conda/Dockerfile
+          context: ./txpipe
+          file: ./txpipe/Dockerfile
           # These arguments get passed into the docker image itself
           build-args: |
             TX_DOCKER_VERSION=${{ github.sha }}
