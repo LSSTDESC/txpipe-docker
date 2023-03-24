@@ -68,7 +68,7 @@ RUN mamba install -y scipy=1.8.0 \
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
-RUN pip install ceci>=1.8 \
+RUN pip install git+https://github.com/LSSTDESC/ceci@perlmutter \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
                 pz-rail-hub==0.0.4 \
                 pzflow
