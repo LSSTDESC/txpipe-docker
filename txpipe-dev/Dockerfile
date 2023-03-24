@@ -57,7 +57,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
 RUN pip install threadpoolctl \
-                ceci>=1.8 \
+                git+https://github.com/LSSTDESC/ceci@perlmutter \
                 sacc>=0.7 \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
@@ -68,7 +68,6 @@ RUN pip install threadpoolctl \
                 Cython \
                 pz-rail-hub==0.0.4 \
                 pzflow \
-                healpix \
                 jupyter \
                 nbconvert \
                 ipykernel \
