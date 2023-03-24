@@ -51,28 +51,27 @@ RUN mamba install -y scipy=1.8.0 \
                      guppy3 \
                      jax \
                      dm-tree \
-                     cosmosis
+                     cosmosis \
+                     threadpoolctl \
+                     "sacc>=0.7" \
+                     cython \
+                     healpix \
+                     jupyter \
+                     nbconvert \
+                     ipykernel \
+                     dask-mpi \
+                     lsstdesc-gcr-catalogs \
+                     "treecorr>=4.3.3" \
+                     parallel_statistics \
+                     mockmpi
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
-RUN pip install threadpoolctl \
-                ceci>=1.8 \
-                sacc>=0.7 \
-                parallel_statistics \
-                git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+https://github.com/dask/dask-mpi \
+RUN pip install ceci>=1.8 \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
-                mockmpi \
-                git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
-                Cython \
                 pz-rail-hub==0.0.4 \
-                pzflow \
-                healpix \
-                jupyter \
-                nbconvert \
-                ipykernel \
-                healpix
+                pzflow
 
 RUN pip install git+https://github.com/LSSTDESC/RAIL
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
