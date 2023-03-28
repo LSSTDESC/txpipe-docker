@@ -104,3 +104,4 @@ WORKDIR /opt/TXPipe
 # force new version
 RUN pip uninstall -y ceci
 RUN pip install git+https://github.com/LSSTDESC/ceci@perlmutter
+RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
