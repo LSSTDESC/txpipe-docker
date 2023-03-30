@@ -57,7 +57,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
 RUN pip install threadpoolctl \
-                git+https://github.com/LSSTDESC/ceci@perlmutter \
+                git+https://github.com/LSSTDESC/ceci@1cefb57770296f5a325eae9cf5512aefedb24c84 \
                 sacc>=0.7 \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
