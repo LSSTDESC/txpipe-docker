@@ -74,6 +74,7 @@ RUN pip install threadpoolctl \
                 healpix
 
 RUN pip install git+https://github.com/LSSTDESC/RAIL
+RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
 ENV LC_ALL C.UTF-8
@@ -101,7 +102,3 @@ ENV PYTHONNOUSERSITE=1
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
 
-# force new version
-RUN pip uninstall -y ceci
-RUN pip install git+https://github.com/LSSTDESC/ceci@perlmutter
-RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
