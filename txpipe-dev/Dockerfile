@@ -71,7 +71,8 @@ RUN pip install threadpoolctl \
                 jupyter \
                 nbconvert \
                 ipykernel \
-                healpix
+                healpix \
+                tjpcov
 
 RUN pip install git+https://github.com/LSSTDESC/RAIL
 RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
