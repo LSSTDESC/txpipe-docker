@@ -63,15 +63,15 @@ RUN mamba install -y scipy=1.8.0 \
                      lsstdesc-gcr-catalogs \
                      "treecorr>=4.3.3" \
                      parallel_statistics \
-                     mockmpi
+                     mockmpi \
+                     pzflow \
+                     lsstdesc-dc2-dm-data
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
-# pip dependencies
+# pip dependencies - fast-moving DESC packages that have not made conda yet
 RUN pip install git+https://github.com/LSSTDESC/ceci@perlmutter \
-                git+https://github.com/LSSTDESC/desc-dc2-dm-data \
-                pz-rail-hub==0.0.4 \
-                pzflow
+                pz-rail-hub==0.0.4
 
 RUN pip install git+https://github.com/LSSTDESC/RAIL
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
