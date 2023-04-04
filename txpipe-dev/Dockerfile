@@ -49,29 +49,29 @@ RUN mamba install -y scipy=1.8.0 \
                      pygraphviz \
                      compilers \
                      guppy3 \
+                     jupyter \
+                     nbconvert \
+                     "sacc>=0.7" \
+                     ipykernel \
                      jax \
+                     threadpoolctl \
+                     dask-mpi \
+                     parallel_statistics \
+                     lsstdesc-gcr-catalogs \
+                     cython \
+                     "treecorr>=4.3.3" \
+                     lsstdesc-dc2-dm-data \
+                     healpix \
+                     mockmpi \
                      dm-tree \
+                     pzflow \
                      cosmosis
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
-RUN pip install threadpoolctl \
-                git+https://github.com/LSSTDESC/ceci@9ff97a17e9577e438a0ad2c3a802ef36e74594fb \
-                sacc>=0.7 \
-                parallel_statistics \
-                git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+https://github.com/dask/dask-mpi \
-                git+https://github.com/LSSTDESC/desc-dc2-dm-data \
-                mockmpi \
-                git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
-                Cython \
+RUN pip install git+https://github.com/LSSTDESC/ceci@9ff97a17e9577e438a0ad2c3a802ef36e74594fb \
                 pz-rail-hub==0.0.4 \
-                pzflow \
-                jupyter \
-                nbconvert \
-                ipykernel \
-                healpix \
                 tjpcov
 
 RUN pip install git+https://github.com/LSSTDESC/RAIL
