@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    name: Build Dev Package
+    name: Build Developer Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
