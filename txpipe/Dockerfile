@@ -45,26 +45,38 @@ RUN mamba install -y scipy=1.8.0 \
                      namaster \
                      healsparse \
                      qp \
-                     cosmosis-standalone \
+                     "firecrown>=1.4.0" \
                      pygraphviz \
                      compilers \
                      guppy3 \
-                     jupyter
+                     jax \
+                     dm-tree \
+                     cosmosis
+
+ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies
 RUN pip install threadpoolctl \
-                ceci>=1.8 \
-                sacc>=0.4.9 \
+                git+https://github.com/LSSTDESC/ceci@9ff97a17e9577e438a0ad2c3a802ef36e74594fb \
+                sacc>=0.7 \
                 parallel_statistics \
                 git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
                 git+https://github.com/dask/dask-mpi \
-                git+https://github.com/LSSTDESC/firecrown@v0.4 \
                 git+https://github.com/LSSTDESC/desc-dc2-dm-data \
                 mockmpi \
                 git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
                 Cython \
                 pz-rail-hub==0.0.4 \
-                pzflow
+                pzflow \
+                jupyter \
+                nbconvert \
+                ipykernel \
+                healpix \
+                tjpcov
+
+RUN pip install git+https://github.com/LSSTDESC/RAIL
+RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
+RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
@@ -90,6 +102,4 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
-RUN pip install git+https://github.com/LSSTDESC/RAIL
-RUN pip install healpix
-RUN pip install jupyter
+
