@@ -50,7 +50,7 @@ RUN mamba install -y scipy=1.8.0 \
                      compilers \
                      guppy3 \
                      jax \
-                     "jaxlib>=0.4.7" \ 
+                     "jaxlib>=0.4.7=*cpu*" \ 
                      dm-tree \
                      cosmosis \
                      threadpoolctl \
