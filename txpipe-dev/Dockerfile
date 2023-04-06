@@ -49,8 +49,7 @@ RUN mamba install -y scipy=1.8.0 \
                      pygraphviz \
                      compilers \
                      guppy3 \
-                     jax=0.4.2 \
-                     "jaxlib=0.4.2=*cpu*" \
+                     jax \
                      dm-tree \
                      cosmosis \
                      threadpoolctl \

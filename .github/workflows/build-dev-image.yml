@@ -60,7 +60,7 @@ jobs:
       - name: Test docker image
         if: ${{ env.DO_TEST }} == 1
         run: |
-          docker run --rm -t ${{ env.TEST_TAG }} -v $PWD/test:/opt/TXPipe /opt/TXPipe/test-image.sh
+          docker run -v $PWD/test:/opt/TXPipe --rm -t ${{ env.TEST_TAG }}  /opt/TXPipe/test-image.sh
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
