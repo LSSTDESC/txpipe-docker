@@ -7,9 +7,6 @@ set -e
 set -x
 
 
-curl -O https://portal.nersc.gov/cfs/lsst/txpipe/data/example.tar.gz
-tar -zxvf example.tar.gz
-
 # Some miscellaneous dependency checks
 python -c 'import tjpcov'
 python -c 'import rail.stages'
@@ -17,5 +14,9 @@ python -c 'import rail.stages'
 # Pipeline dry run
 git clone https://github.com/LSSTDESC/TXPipe
 cd TXPipe
+
+curl -O https://portal.nersc.gov/cfs/lsst/txpipe/data/example.tar.gz
+tar -zxvf example.tar.gz
+
 ceci --dry-run examples/metadetect/pipeline.yml
 
