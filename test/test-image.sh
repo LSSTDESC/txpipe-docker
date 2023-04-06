@@ -6,6 +6,10 @@
 set -e
 set -x
 
+
+curl -O https://portal.nersc.gov/cfs/lsst/txpipe/data/example.tar.gz
+tar -zxvf example.tar.gz
+
 # Some miscellaneous dependency checks
 python -c 'import tjpcov'
 python -c 'import rail.stages'
