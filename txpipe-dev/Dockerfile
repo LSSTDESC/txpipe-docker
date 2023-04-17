@@ -70,7 +70,7 @@ RUN mamba install -y scipy=1.8.0 \
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies - fast-moving DESC packages that have not made conda yet
-RUN pip install git+https://github.com/LSSTDESC/ceci@perlmutter \
+RUN pip install "ceci>=1.13" \
                 pz-rail-hub==0.0.4 \
                 tjpcov
 
