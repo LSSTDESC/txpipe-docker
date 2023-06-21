@@ -71,10 +71,9 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies - fast-moving DESC packages that have not made conda yet
 RUN pip install "ceci>=1.14" \
-                pz-rail-hub==0.0.4 \
+                "pz-rail[dev]==0.99.1" \
                 tjpcov
 
-RUN pip install git+https://github.com/LSSTDESC/RAIL
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
 ENV LC_ALL C.UTF-8
