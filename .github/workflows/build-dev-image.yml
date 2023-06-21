@@ -9,7 +9,7 @@ env:
   TEST_TAG: lsstdesc/txpipe-dev:testing
   PUSH_TAG: ghcr.io/lsstdesc/txpipe-dev
   # Set this to 0 to 
-  DO_TEST: 0
+  DO_TEST: ${{ false }}
 
 
 jobs:
@@ -58,7 +58,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test docker image
-        if: ${{ env.DO_TEST }} == 1
+        if: ${{ env.DO_TEST }}
         run: |
           docker run -v $PWD/test:/opt/TXPipe --rm -t ${{ env.TEST_TAG }}  /opt/TXPipe/test-image.sh
 
