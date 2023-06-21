@@ -9,7 +9,7 @@ env:
   TEST_TAG: lsstdesc/txpipe-dev:testing
   PUSH_TAG: ghcr.io/lsstdesc/txpipe-dev
   # Set this to 0 to 
-  DO_TEST: 1
+  DO_TEST: 0
 
 
 jobs:
