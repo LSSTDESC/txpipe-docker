@@ -41,7 +41,7 @@ RUN mamba install -y scipy=1.8.0 \
                      healpy \
                      fitsio \
                      astropy \
-                     pyccl>=2.5.0 \
+                     "pyccl>=2.5.0" \
                      namaster \
                      healsparse \
                      qp \
@@ -51,31 +51,29 @@ RUN mamba install -y scipy=1.8.0 \
                      guppy3 \
                      jax \
                      dm-tree \
-                     cosmosis
+                     cosmosis \
+                     threadpoolctl \
+                     "sacc>=0.8.1" \
+                     cython \
+                     healpix \
+                     jupyter \
+                     nbconvert \
+                     ipykernel \
+                     dask-mpi \
+                     lsstdesc-gcr-catalogs \
+                     "treecorr>=4.3.3" \
+                     parallel_statistics \
+                     mockmpi \
+                     pzflow \
+                     lsstdesc-dc2-dm-data
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
-# pip dependencies
-RUN pip install threadpoolctl \
-                git+https://github.com/LSSTDESC/ceci@9ff97a17e9577e438a0ad2c3a802ef36e74594fb \
-                sacc>=0.7 \
-                parallel_statistics \
-                git+https://github.com/LSSTDESC/gcr-catalogs#egg=GCRCatalogs \
-                git+https://github.com/dask/dask-mpi \
-                git+https://github.com/LSSTDESC/desc-dc2-dm-data \
-                mockmpi \
-                git+https://github.com/rmjarvis/TreeCorr@fdb75d2f77e5b3a3fd095770fff86f472ffde8cb \
-                Cython \
-                pz-rail-hub==0.0.4 \
-                pzflow \
-                jupyter \
-                nbconvert \
-                ipykernel \
-                healpix \
+# pip dependencies - fast-moving DESC packages that have not made conda yet
+RUN pip install "ceci>=1.14" \
+                "pz-rail[dev]==0.99.1" \
                 tjpcov
 
-RUN pip install git+https://github.com/LSSTDESC/RAIL
-RUN pip install git+https://github.com/LSSTDESC/rail_bpz@main
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
 ENV LC_ALL C.UTF-8
@@ -102,4 +100,5 @@ ENV PYTHONNOUSERSITE=1
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
+
 
