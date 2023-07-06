@@ -101,4 +101,5 @@ ENV PYTHONNOUSERSITE=1
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
 
-
+RUN mamba install -c conda-forge psycopg2
+RUN pip installgit+https://github.com/LSSTDESC/dataregistry.git
