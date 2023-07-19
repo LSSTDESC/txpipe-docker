@@ -103,4 +103,5 @@ WORKDIR /opt/TXPipe
 
 RUN mamba install -c conda-forge psycopg2
 RUN pip install git+https://github.com/LSSTDESC/dataregistry.git
+RUN pip install pz-rail-dev==0.1.0
 RUN pip install git+https://github.com/LSSTDESC/ceci.git@data-registry
