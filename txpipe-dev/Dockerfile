@@ -105,3 +105,5 @@ RUN mamba install -c conda-forge psycopg2
 RUN pip install git+https://github.com/LSSTDESC/dataregistry.git
 RUN pip install pz-rail-bpz==0.1.0
 RUN pip install git+https://github.com/LSSTDESC/ceci.git@data-registry
+
+RUN mamba uninstall -f qp && pip install git+https://github.com/LSSTDESC/dataregistry.git@0741927eaece2180b1095b7737996b73e10ca35c
