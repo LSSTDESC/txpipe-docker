@@ -103,9 +103,8 @@ WORKDIR /opt/TXPipe
 
 RUN mamba install -c conda-forge psycopg2
 RUN pip install git+https://github.com/LSSTDESC/dataregistry.git
-run pip install pz-rail==0.99.1 pz-rail-astro-tools==0.0.2 pz-rail-base==0.0.4 pz-rail-bpz==0.1.0 pz-rail-dsps==0.0.2 pz-rail-flexzboost==0.1.1 pz-rail-fsps==0.0.2 pz-rail-gpz-v1==0.1.2 pz-rail-pipelines==0.1.0 pz-rail-pzflow==0.0.1 pz-rail-sklearn==0.0.1 pz-rail-som==0.0.2
+RUN pip install pz-rail==0.99.1 pz-rail-astro-tools==0.0.2 pz-rail-base==0.0.4 pz-rail-bpz==0.1.0 pz-rail-dsps==0.0.2 pz-rail-flexzboost==0.1.1 pz-rail-fsps==0.0.2 pz-rail-gpz-v1==0.1.2 pz-rail-pipelines==0.1.0 pz-rail-pzflow==0.0.1 pz-rail-sklearn==0.0.1 pz-rail-som==0.0.2
 RUN pip install git+https://github.com/LSSTDESC/ceci.git@data-registry
 
-
-
+# Force an as-yet unreleased qp version
 RUN mamba uninstall --force qp && pip install git+https://github.com/LSSTDESC/qp.git@0741927eaece2180b1095b7737996b73e10ca35c
