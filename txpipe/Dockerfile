@@ -1,4 +1,4 @@
-FROM condaforge/mambaforge:4.11.0-4
+FROM condaforge/mambaforge:23.3.1-1
 MAINTAINER joezuntz@googlemail.com
 
 # Make, which we will need for everything
@@ -27,32 +27,32 @@ RUN apt-get update -y  \
 
 # conda dependencies. As much as possible goes in here!
 # should we be pinning versions?
-RUN mamba install -y scipy=1.8.0 \
+RUN conda install -c conda-forge -y scipy=1.8.0 \
                      matplotlib=3.5.1 \
                      psutil \
-                     numpy=1.22.2 \
+                     numpy=1.23.* \
                      pandas=1.4.1 \
                      "dask=2023.4.1" \
                      scikit-learn \
                      'mpich=4.0.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
-                     "camb=1.5.2" \
+                     "camb=1.5.*" \
                      "healpy=1.16.*" \
-                     "fitsio=1.1.8" \
+                     "fitsio=1.1.*" \
                      "astropy=5.2.*" \
                      "pyccl=2.6.*" \
                      namaster \
                      healsparse \
                      qp \
-                     "firecrown=1.4.0" \
+                     "firecrown=1.4.*" \
                      pygraphviz \
                      compilers \
                      guppy3 \
                      "jax=0.4.14" \
                      "jaxlib=0.4.14=*cpu*" \
                      "dm-tree=0.1.7" \
-                     "cosmosis=3.4.*" \
+                     "cosmosis=3.4" \
                      threadpoolctl \
                      "sacc>=0.8.1" \
                      cython \
