@@ -32,26 +32,27 @@ RUN mamba install -y scipy=1.8.0 \
                      psutil \
                      numpy=1.22.2 \
                      pandas=1.4.1 \
-                     dask \
+                     "dask=2023.4.1" \
                      scikit-learn \
                      'mpich=4.0.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
-                     camb \
-                     healpy \
-                     fitsio \
-                     astropy \
-                     "pyccl>=2.5.0" \
+                     "camb=1.5.2" \
+                     "healpy=1.16.*" \
+                     "fitsio=1.1.8" \
+                     "astropy=5.2.*" \
+                     "pyccl=2.6.*" \
                      namaster \
                      healsparse \
                      qp \
-                     "firecrown>=1.4.0" \
+                     "firecrown=1.4.0" \
                      pygraphviz \
                      compilers \
                      guppy3 \
-                     jax \
-                     dm-tree \
-                     cosmosis \
+                     "jax=0.4.14" \
+                     "jaxlib>=0.4.14" \
+                     "dm-tree=0.1.7" \
+                     "cosmosis=3.4.*" \
                      threadpoolctl \
                      "sacc>=0.8.1" \
                      cython \
