@@ -27,7 +27,7 @@ RUN apt-get update -y  \
 
 # conda dependencies. As much as possible goes in here!
 # should we be pinning versions?
-RUN conda install -c conda-forge -y scipy=1.8.0 \
+RUN mamba install -c conda-forge -y scipy=1.8.0 \
                      matplotlib=3.5.1 \
                      psutil \
                      "numpy=1.23.*" \
