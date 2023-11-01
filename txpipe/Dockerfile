@@ -88,7 +88,7 @@ RUN pip install "ceci>=1.17" \
                 "pz-rail-som==0.0.2"
 
 # Force a version of qp that is on pypi but not yet conda
-RUN mamba uninstall --force qp && pip install 
+RUN mamba uninstall --force qp && pip install qp-prob==0.8.5
 
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
