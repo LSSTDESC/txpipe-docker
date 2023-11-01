@@ -66,14 +66,29 @@ RUN conda install -c conda-forge -y scipy=1.8.0 \
                      parallel_statistics \
                      mockmpi \
                      pzflow \
-                     lsstdesc-dc2-dm-data
+                     lsstdesc-dc2-dm-data \
+                     psycopg2
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
 # pip dependencies - fast-moving DESC packages that have not made conda yet
-RUN pip install "ceci>=1.14" \
+RUN pip install "ceci>=1.17" \
+                "tjpcov==0.3.2" \
                 "pz-rail[dev]==0.99.1" \
-                "tjpcov==0.3.2"
+                "pz-rail-astro-tools==0.0.2" \
+                "pz-rail-base==0.0.4" \
+                "pz-rail-bpz==0.1.0" \
+                "pz-rail-dsps==0.0.2" \
+                "pz-rail-flexzboost==0.1.1" \
+                "pz-rail-fsps==0.0.2" \
+                "pz-rail-gpz-v1==0.1.2" \
+                "pz-rail-pipelines==0.1.0" \
+                "pz-rail-pzflow==0.0.1" \ 
+                "pz-rail-sklearn==0.0.1" \
+                "pz-rail-som==0.0.2"
+
+# Force a version of qp that is on pypi but not yet conda
+RUN mamba uninstall --force qp && pip install 
 
 RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
 
@@ -102,10 +117,3 @@ ENV PYTHONNOUSERSITE=1
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
 
-RUN mamba install -c conda-forge psycopg2
-RUN pip install git+https://github.com/LSSTDESC/dataregistry.git
-RUN pip install pz-rail==0.99.1 pz-rail-astro-tools==0.0.2 pz-rail-base==0.0.4 pz-rail-bpz==0.1.0 pz-rail-dsps==0.0.2 pz-rail-flexzboost==0.1.1 pz-rail-fsps==0.0.2 pz-rail-gpz-v1==0.1.2 pz-rail-pipelines==0.1.0 pz-rail-pzflow==0.0.1 pz-rail-sklearn==0.0.1 pz-rail-som==0.0.2
-RUN pip install git+https://github.com/LSSTDESC/ceci.git@data-registry
-
-# Force an as-yet unreleased qp version
-RUN mamba uninstall --force qp && pip install git+https://github.com/LSSTDESC/qp.git@0741927eaece2180b1095b7737996b73e10ca35c
