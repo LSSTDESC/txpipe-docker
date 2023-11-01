@@ -30,9 +30,9 @@ RUN apt-get update -y  \
 RUN conda install -c conda-forge -y scipy=1.8.0 \
                      matplotlib=3.5.1 \
                      psutil \
-                     numpy=1.23.* \
-                     pandas=1.4.1 \
-                     "dask=2023.4.1" \
+                     "numpy=1.23.*" \
+                     "pandas=1.4.1" \
+                     "dask=2023.5.0" \
                      scikit-learn \
                      'mpich=4.0.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
@@ -60,7 +60,7 @@ RUN conda install -c conda-forge -y scipy=1.8.0 \
                      jupyter \
                      nbconvert \
                      ipykernel \
-                     dask-mpi \
+                     "dask-mpi=2022.4.0" \
                      lsstdesc-gcr-catalogs \
                      "treecorr>=4.3.3" \
                      parallel_statistics \
