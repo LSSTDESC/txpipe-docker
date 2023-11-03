@@ -108,3 +108,4 @@ RUN pip install git+https://github.com/LSSTDESC/ceci.git@data-registry
 
 # Force an as-yet unreleased qp version
 RUN mamba uninstall --force qp && pip install git+https://github.com/LSSTDESC/qp.git@0741927eaece2180b1095b7737996b73e10ca35c
+RUN pip install glass
