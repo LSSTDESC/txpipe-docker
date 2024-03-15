@@ -85,9 +85,7 @@ RUN pip install "ceci>=1.17" \
                 "pz-rail-pipelines==0.1.0" \
                 "pz-rail-pzflow==0.0.1" \ 
                 "pz-rail-sklearn==0.0.1" \
-                "pz-rail-som==0.0.2" \
-                "jax==0.4.19" \ 
-                "jaxlib==0.4.19"
+                "pz-rail-som==0.0.2"
 
 # Force a version of qp that is on pypi but not yet conda
 RUN mamba uninstall --force qp && pip install qp-prob==0.8.5
