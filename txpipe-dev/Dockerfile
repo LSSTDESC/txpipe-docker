@@ -49,8 +49,8 @@ RUN mamba install -c conda-forge -y scipy=1.8.0 \
                      pygraphviz \
                      compilers \
                      guppy3 \
-                     "jax=0.4.14" \
-                     "jaxlib=0.4.14=*cpu*" \
+                     "jax=0.4.19" \
+                     "jaxlib=0.4.19=*cpu*" \
                      "dm-tree=0.1.7" \
                      "cosmosis=3.4" \
                      threadpoolctl \
