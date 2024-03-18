@@ -20,6 +20,13 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Check disk space
+        run: |
+          df . -h
+          sudo ls -lh /usr/share/dotnet
+          sudo ls -lh "$AGENT_TOOLSDIRECTORY"
+          sudo df /usr/share/dotnet -h
+          sudo df "$AGENT_TOOLSDIRECTORY" -h
       - name: Checkout repository
         uses: actions/checkout@v4
 
