@@ -20,9 +20,29 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Check disk space
+      - name: Check disk space 1
         run: |
           df . -h
+
+        # docker image build is running out of disk space
+        # adding this action to test freeing up space
+      - name: Free Up GitHub Actions Ubuntu Runner Disk Space 🔧
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # This might remove tools that are actually needed, if set to "true" but frees about 6 GB
+          tool-cache: false
+
+          # All of these default to true, but feel free to set to "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          swap-storage: true
+
+      - name: Check disk space 2
+        run: |
+          df . -h
+          
       - name: Checkout repository
         uses: actions/checkout@v4
 
