@@ -62,7 +62,7 @@ RUN mamba install -c conda-forge -y scipy=1.8.0 \
                      ipykernel \
                      "dask-mpi=2022.4.0" \
                      lsstdesc-gcr-catalogs \
-                     "treecorr>=4.3.3" \
+                     "treecorr=4.3.3" \
                      parallel_statistics \
                      mockmpi \
                      pzflow \
