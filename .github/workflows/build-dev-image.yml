@@ -20,10 +20,6 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Check disk space 1
-        run: |
-          df . -h
-
         # docker image build is running out of disk space
         # adding this action to test freeing up space
       - name: Free Up GitHub Actions Ubuntu Runner Disk Space 🔧
@@ -38,10 +34,6 @@ jobs:
           haskell: true
           large-packages: true
           swap-storage: true
-
-      - name: Check disk space 2
-        run: |
-          df . -h
           
       - name: Checkout repository
         uses: actions/checkout@v4
