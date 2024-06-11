@@ -37,7 +37,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 # include the actual libraries, so the pre-installed ones are used instead.
 # We install three sets of conda packages here, TXPipe core, TXPipe NERSC-specific, and RAIL.
 # We also install the RAIL package in full here.
-RUN git clone git+https://github.com/LSSTDESC/TXPipe.git@${TX_TAG_FOR_DEPENDENCIES} \
+RUN git clone https://github.com/LSSTDESC/TXPipe.git@${TX_TAG_FOR_DEPENDENCIES} \
     && cd TXPipe \
     && sed 's/mpich=.*/mpich=4.0.*=external_*/' environment-nopip.yml > environment-nopip2.yml \
     && git clone https://github.com/LSSTDESC/rail.git@$RAIL_TAG_FOR_DEPENDENCIES} \
