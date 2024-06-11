@@ -58,7 +58,7 @@ RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/
     && pip install ".[algos]"
 
 
-RUN mamba activate \
+RUN mamba activate tx \
     && pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec \
     && pip install git+https://github.com/beckermr/hybrideb
 
