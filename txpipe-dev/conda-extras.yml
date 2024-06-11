@@ -5,6 +5,8 @@ dependencies:
   - qp
   - cython
   - nbconvert
+  # rail requires 3.12
+  - python=3.12.*
   - ipykernel
   - lsstdesc-gcr-catalogs
   - compilers
