@@ -13,3 +13,7 @@ dependencies:
   - pygraphviz
   - lsstdesc-dc2-dm-data
   - psycopg2
+  # RAIL wants these
+  - pyarrow
+  - pytables
+  - somoclu

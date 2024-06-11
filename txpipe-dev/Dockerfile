@@ -1,8 +1,6 @@
 FROM condaforge/mambaforge:23.3.1-1
 LABEL maintainer=joezuntz@googlemail.com
 
-COPY conda-extras.yml conda-extras.yml
-
 ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
 ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 
@@ -31,18 +29,23 @@ RUN apt-get update -y  \
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
+COPY conda-extras.yml conda-extras.yml
+
+
 # Install the TXPipe environment, but we need to modify the environment file
 # because we want to use the MPICH package that we installed above.
 # The "external" version in conda-forge is a meta-package that does not
 # include the actual libraries, so the pre-installed ones are used instead.
 # We install three sets of conda packages here, TXPipe core, TXPipe NERSC-specific, and RAIL.
 # We also install the RAIL package in full here.
-RUN git clone https://github.com/LSSTDESC/TXPipe.git@${TX_TAG_FOR_DEPENDENCIES} \
+# RAIL tries to demand OpenMPI instead of MPICH, so we can't just directly
+# follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
+RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
     && sed 's/mpich=.*/mpich=4.0.*=external_*/' environment-nopip.yml > environment-nopip2.yml \
-    && git clone https://github.com/LSSTDESC/rail.git@$RAIL_TAG_FOR_DEPENDENCIES} \
-    && mamba env update --file environment-nopip2.yml --file ../conda-extras.yml --file rail/conda-reqs.txt \
+    && mamba env update --file environment-nopip2.yml --file ../conda-extras.yml\
     && mamba env update --file environment-pip.yml \
+    && git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
     && cd rail \
     && pip install ".[algos]" \
     && cd ../.. \
