@@ -3,14 +3,14 @@ channels:
 dependencies:
   - threadpoolctl
   - qp
-  - cython
+  - cython=3.0.*
   - nbconvert
   # rail requires 3.12
   - python=3.12.*
   - ipykernel
   - lsstdesc-gcr-catalogs
   - compilers
-  - guppy3
+  # - guppy3
   - mockmpi
   - pygraphviz
   - lsstdesc-dc2-dm-data
