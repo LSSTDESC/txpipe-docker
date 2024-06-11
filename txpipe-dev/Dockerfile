@@ -46,16 +46,15 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && cd TXPipe \
     && sed 's/mpich=.*/mpich=4.0.*=external_*/' environment-nopip.yml > environment-nopip2.yml \
     && cat environment-nopip2.yml \
-    && mamba env update --name base --file environment-nopip2.yml \
-    && mamba env update --name base --file ../conda-extras.yml \
-    && mamba env update --name base --file environment-piponly.yml \
+    && mamba env create --name tx python=3.12 environment-nopip2.yml --file ../conda-extras.yml \
+    && mamba env update --name tx --file environment-piponly.yml \
     && cd .. \
     && rm -rf TXPipe
 
 
 RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
     && cd rail \
-    && mamba activate \
+    && mamba activate tx \
     && pip install ".[algos]"
 
 
