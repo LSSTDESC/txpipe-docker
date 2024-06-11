@@ -1,9 +1,6 @@
 FROM condaforge/mambaforge:23.3.1-1
 LABEL maintainer=joezuntz@googlemail.com
 
-ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
-ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
-
 # Make, which we will need for everything
 RUN apt-get update -y \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y make  \
@@ -29,7 +26,12 @@ RUN apt-get update -y  \
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
+# These should go here so that if we change them
+# it does not invalidate everything above from the cache
 COPY conda-extras.yml conda-extras.yml
+ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
+ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
+
 
 
 # Install the TXPipe environment, but we need to modify the environment file
@@ -43,16 +45,23 @@ COPY conda-extras.yml conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
     && sed 's/mpich=.*/mpich=4.0.*=external_*/' environment-nopip.yml > environment-nopip2.yml \
-    && mamba env update --file environment-nopip2.yml --file ../conda-extras.yml\
-    && mamba env update --file environment-pip.yml \
-    && git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
-    && cd rail \
-    && pip install ".[algos]" \
-    && cd ../.. \
+    && cat environment-nopip2.yml \
+    && mamba env update --name base --file environment-nopip2.yml \
+    && mamba env update --name base --file ../conda-extras.yml \
+    && mamba env update --name base --file environment-piponly.yml \
+    && cd .. \
     && rm -rf TXPipe
 
-RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
-RUN pip install git+https://github.com/beckermr/hybrideb
+
+RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
+    && cd rail \
+    && mamba activate \
+    && pip install ".[algos]"
+
+
+RUN mamba activate \
+    && pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec \
+    && pip install git+https://github.com/beckermr/hybrideb
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
