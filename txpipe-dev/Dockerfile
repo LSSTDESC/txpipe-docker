@@ -31,17 +31,20 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && echo "INSTALLING NO-PIP" \
     && echo "FILE 1" \
     && cat environment-nopip2.yml \
+    && mamba env create --name tx --file  environment-nopip2.yml \
+    $$ echo DONE 1 \
+    && mamba list --name tx
     && echo "FILE 2" \
     && cat ../conda-extras.yml \
-    && mamba env create --name tx --file  environment-nopip2.yml \
     && mamba env update --name tx --file ../conda-extras.yml \
-    && mamba list
+    && echo DONE 2\
+    && mamba list --name tx
 
 RUN cd TXPipe \
     && echo "INSTALLING PIP" \
     && echo "FILE 3" \
     && cat environment-piponly.yml \
-    && mamba env update --name tx --file environment-piponly.yml
+    && mamba env update -vv --name tx --file environment-piponly.yml
     # && cd .. \
     # && rm -rf TXPipe
 
