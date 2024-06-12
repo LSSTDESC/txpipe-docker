@@ -1,6 +1,11 @@
 FROM ghcr.io/lsstdesc/txpipe-base
 LABEL maintainer=joezuntz@googlemail.com
 
+# I thought this would carry over from the previous build
+# but apparently not. Might be a github actions thing.
+# or maybe I just didn't wait long enough for the parent
+# build to propagate.
+ENV TX_MPI_VERSION=4.2.1
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
