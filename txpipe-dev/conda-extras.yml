@@ -6,7 +6,7 @@ dependencies:
   - cython=3.0.*
   - nbconvert
   # rail requires 3.12
-  - python=3.12.*
+  - python=3.11.*
   - ipykernel
   - lsstdesc-gcr-catalogs
   - compilers
