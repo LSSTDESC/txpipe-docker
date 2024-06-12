@@ -50,7 +50,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && cat environment-nopip2.yml \
     && echo "FILE 2" \
     && cat ../conda-extras.yml \
-    && mamba env create --name tx --file  environment-nopip2.yml --file ../conda-extras.yml \
+    && mamba create --name tx --file  environment-nopip2.yml --file ../conda-extras.yml \
     && source activate tx \
     && mamba list
 
