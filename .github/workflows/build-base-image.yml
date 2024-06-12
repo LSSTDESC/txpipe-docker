@@ -6,7 +6,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   BUILD_DIR: ./txpipe-base
-  TEST_TAG: lsstdesc/txpipe-base
+  TEST_TAG: lsstdesc/txpipe-base:base
   PUSH_TAG: ghcr.io/lsstdesc/txpipe-base
   # Set this to 0 to 
   DO_TEST: ${{ false }}
