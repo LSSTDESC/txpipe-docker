@@ -51,11 +51,11 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && echo "FILE 2" \
     && cat ../conda-extras.yml \
     && mamba env create --name tx --file  environment-nopip2.yml --file ../conda-extras.yml \
-    && mamba activate tx \
+    && source activate tx \
     && mamba list
 
 RUN cd TXPipe \
-    && mamba activate tx \
+    && source activate tx \
     && echo "INSTALLING PIP" \
     && echo "FILE 3" \
     && cat environment-piponly.yml \
@@ -66,7 +66,7 @@ RUN cd TXPipe \
 
 RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
     && cd rail \
-    && mamba activate tx \
+    && source activate tx \
     && echo "PIP = " \
     %% which pip \
     && python -m pip install ".[algos]"
