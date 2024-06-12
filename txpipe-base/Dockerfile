@@ -1,6 +1,9 @@
 FROM condaforge/mambaforge:23.3.1-1
 LABEL maintainer=joezuntz@googlemail.com
 
+ENV TX_MPI_VERSION=4.2.1
+
+
 # Make, which we will need for everything
 RUN apt-get update -y \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y make  \
@@ -16,9 +19,9 @@ RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran \
     && mkdir /opt/mpich \
     && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
-    && tar xvzf mpich-4.0.2.tar.gz \
-    && cd mpich-4.0.2 \
+    && wget http://www.mpich.org/static/downloads/${TX_MPI_VERSION}/mpich-${TX_MPI_VERSION}.tar.gz \
+    && tar xvzf mpich-${TX_MPI_VERSION}.tar.gz \
+    && cd mpich-${TX_MPI_VERSION} \
     && ./configure --disable-wrapper-rpath  --disable-cxx --with-device=ch3 && make \
     && make install \
     && rm -rf /opt/mpich \
