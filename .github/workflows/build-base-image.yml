@@ -1,20 +1,20 @@
-name: Build Developer Image
+name: Build Base Image
 
 on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BUILD_DIR: ./txpipe-dev
-  TEST_TAG: lsstdesc/txpipe-dev:testing
-  PUSH_TAG: ghcr.io/lsstdesc/txpipe-dev
+  BUILD_DIR: ./txpipe-base
+  TEST_TAG: lsstdesc/txpipe-base
+  PUSH_TAG: ghcr.io/lsstdesc/txpipe-base
   # Set this to 0 to 
   DO_TEST: ${{ false }}
 
 
 jobs:
   build:
-    name: Build Developer Image
+    name: Build Base Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -56,11 +56,6 @@ jobs:
           tags: ${{ env.TEST_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # - name: Test docker image
-      #   if: ${{ env.DO_TEST }}
-      #   run: |
-      #     docker run -v $PWD/test:/opt/TXPipe --rm -t ${{ env.TEST_TAG }}  /opt/TXPipe/test-image.sh
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
