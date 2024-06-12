@@ -32,7 +32,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && echo "FILE 1" \
     && cat environment-nopip2.yml \
     && mamba env create --name tx --file  environment-nopip2.yml \
-    $$ echo DONE 1 \
+    && echo DONE 1 \
     && mamba list --name tx \
     && echo "FILE 2" \
     && cat ../conda-extras.yml \
