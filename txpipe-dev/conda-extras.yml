@@ -3,13 +3,11 @@ channels:
 dependencies:
   - threadpoolctl
   - qp
-  - cython=3.0.*
   - nbconvert
-  - python=3.11.*
   - ipykernel
   - lsstdesc-gcr-catalogs
   - compilers
-  # - guppy3
+  - guppy3
   - mockmpi
   - pygraphviz
   - lsstdesc-dc2-dm-data

@@ -28,7 +28,12 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
     && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml | sed 's/name: tx/name: base/' | sed 's/python=3.11/python=3.10/' > environment-nopip2.yml \
+    && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
+    && echo cat ../conda-extras.yml \
+    && cat ../conda-extras.yml \
+    && echo cat environment-piponly.yml \
+    && cat environment-piponly.yml \
     && mamba env update --file  environment-nopip2.yml \
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
