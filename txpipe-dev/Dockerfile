@@ -44,7 +44,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
 RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
     && cd rail \
     && python -m pip install ".[algos]" \
-    cd .. \
+    && cd .. \
     && rm -rf rail
 
 
