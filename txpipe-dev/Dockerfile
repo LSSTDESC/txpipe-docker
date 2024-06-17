@@ -22,12 +22,11 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 # The "external" version in conda-forge is a meta-package that does not
 # include the actual libraries, so the pre-installed ones are used instead.
 # We install three sets of conda packages here, TXPipe core, TXPipe NERSC-specific, and RAIL.
-# We also install the RAIL package in full here.
 # RAIL tries to demand OpenMPI instead of MPICH, so we can't just directly
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
-    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml | sed 's/name: tx/name: base/' | sed 's/python=3.11/python=3.10/' > environment-nopip2.yml \
+    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
     && echo cat ../conda-extras.yml \
@@ -41,15 +40,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && rm -rf TXPipe
 
 
-RUN git clone --branch ${RAIL_TAG_FOR_DEPENDENCIES} https://github.com/LSSTDESC/rail \
-    && cd rail \
-    && python -m pip install ".[algos]" \
-    && cd .. \
-    && rm -rf rail
 
-
-RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec \
-    && pip install git+https://github.com/beckermr/hybrideb
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
