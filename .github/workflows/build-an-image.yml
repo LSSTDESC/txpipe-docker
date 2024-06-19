@@ -1,0 +1,87 @@
+name: Build Developer Image
+
+on:
+    workflow_call:
+      inputs:
+        IMAGE_NAME:
+            required: true
+            type: string
+        BUILD_DIR:
+            required: true
+            type: string
+        TEST_TAG:
+            required: true
+            type: string
+        PUSH_TAG:
+            required: true
+            type: string
+                
+env:
+  REGISTRY: ghcr.io
+
+
+jobs:
+  build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      # This only gets the date in this job, because
+      # there is no release tag
+      - name: Get release info
+        id: release_info
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo ""
+
+      - name: Build docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.BUILD_DIR }}
+          file: ${{ inputs.BUILD_DIR }}/Dockerfile
+          # the load option means the built image is kept locally
+          # but not pushed yet
+          load: true
+          build-args: |
+            TX_DOCKER_VERSION=${{ github.sha }}
+            TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
+            TX_RELEASE_DATE=${{ steps.release_info.outputs.date }}
+          tags: ${{ inputs.TEST_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.BUILD_DIR }}
+          file: ${{ inputs.BUILD_DIR }}/Dockerfile
+          # These arguments get passed into the docker image itself
+          build-args: |
+            TX_DOCKER_VERSION=${{ github.sha }}
+            TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
+            TX_RELEASE_DATE=${{ steps.release_info.outputs.date }}
+          push: true
+          # We use three tags for release builds:
+          # txpipe-dev
+          # txpipe-dev:latest
+          # txpipe-dev:<the date, e.g. 2023-03-21>
+          tags: ${{ inputs.PUSH_TAG }},${{ inputs.PUSH_TAG }}:latest,${{ inputs.PUSH_TAG }}:${{ steps.release_info.outputs.date }},${{ inputs.PUSH_TAG }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
