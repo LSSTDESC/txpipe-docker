@@ -16,6 +16,10 @@ ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
 ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 
 
+# This line makes sure that if the TXPipe version we are using is updated
+# then the cache is invalidated and the new version is used.
+ADD https://api.github.com/repos/LSSTDESC/TXPipe/git/refs/heads/${TX_TAG_FOR_DEPENDENCIES} txpipe-version.json
+
 
 # Install the TXPipe environment, but we need to modify the environment file
 # because we want to use the MPICH package that we installed above.
