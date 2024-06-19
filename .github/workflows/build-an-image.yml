@@ -1,4 +1,4 @@
-name: Build Developer Image
+name: Build An Image (Do not use directly)
 
 on:
     workflow_call:
