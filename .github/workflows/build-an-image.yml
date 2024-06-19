@@ -50,24 +50,8 @@ jobs:
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
           echo ""
 
-      - name: Build docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ inputs.BUILD_DIR }}
-          file: ${{ inputs.BUILD_DIR }}/Dockerfile
-          # the load option means the built image is kept locally
-          # but not pushed yet
-          load: true
-          build-args: |
-            TX_DOCKER_VERSION=${{ github.sha }}
-            TX_RELEASE_TAG=dev-${{ steps.release_info.outputs.date }}
-            TX_RELEASE_DATE=${{ steps.release_info.outputs.date }}
-          tags: ${{ inputs.TEST_TAG }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
-
-      - name: Build and push Docker image
+      - name: Build & Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ${{ inputs.BUILD_DIR }}
