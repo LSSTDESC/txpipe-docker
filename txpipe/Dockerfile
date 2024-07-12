@@ -92,6 +92,6 @@ ENV PYTHONNOUSERSITE=1
 RUN pip install git+https://github.com/LSSTDESC/dataregistry.git@v0.4.0
 
 # might not work, let's find out
-RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
+# RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
 
