@@ -113,6 +113,8 @@ RUN mkdir -p /global/common/shared/das/container_proxy/ \
 # avoid stuff in ~/.local getting mixed in on NERSC
 ENV PYTHONNOUSERSITE=1
 
+RUN pip install git+https://github.com/LSSTDESC/dataregistry.git@v0.4.0
+
 # might not work, let's find out
 RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
