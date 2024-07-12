@@ -1,29 +1,5 @@
-FROM condaforge/mambaforge:23.3.1-1
+FROM ghcr.io/lsstdesc/txpipe-base
 MAINTAINER joezuntz@googlemail.com
-
-# Make, which we will need for everything
-RUN apt-get update -y \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y make  \
-    && apt-get clean all
-
-# We need a C compiler temporarily to install MPICH, which we want so that we use
-# vendored MPI with conda. Not sure if we can get away with removing the gcc and g++
-# compilers afterwards to save space but will try. We will use the conda gcc for everything
-# else, though ideally everything would come through conda-forge.
-# I have found that using the conda-forge supplied MPICH does not work
-# with shifter on NERSC.
-RUN apt-get update -y  \
-    && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran \
-    && mkdir /opt/mpich \
-    && cd /opt/mpich \
-    && wget http://www.mpich.org/static/downloads/4.0.2/mpich-4.0.2.tar.gz \
-    && tar xvzf mpich-4.0.2.tar.gz \
-    && cd mpich-4.0.2 \
-    && ./configure --disable-wrapper-rpath  --disable-cxx --with-device=ch3 && make \
-    && make install \
-    && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc gfortran
-
 
 # conda dependencies. As much as possible goes in here!
 # should we be pinning versions?
@@ -34,7 +10,7 @@ RUN mamba install -c conda-forge -y scipy=1.8.0 \
                      "pandas=1.4.1" \
                      "dask=2023.5.0" \
                      scikit-learn \
-                     'mpich=4.0.*=external_*' \
+                     'mpich=4.2.*=external_*' \
                      'h5py=*=mpi_mpich_*'\
                      mpi4py \
                      "camb=1.5.*" \
