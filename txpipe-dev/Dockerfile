@@ -1,6 +1,10 @@
 FROM ghcr.io/lsstdesc/txpipe-base
 LABEL maintainer=joezuntz@googlemail.com
 
+# This is here so I can force a rebuild when changing
+# stuff in the TXPipe repo.
+RUN echo Build version 1
+
 # I thought this would carry over from the previous build
 # but apparently not. Might be a github actions thing.
 # or maybe I just didn't wait long enough for the parent
