@@ -45,10 +45,11 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
     && cd .. \
-    && rm -rf TXPipe
+    && rm -rf TXPipe \
+    && pip uninstall -y jaxlib \ 
+    && mamba install -y -c conda-forge jaxlib=0.4.23
 
-
-
+# ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
