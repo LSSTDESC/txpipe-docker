@@ -47,7 +47,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && cd .. \
     && rm -rf TXPipe \
     && pip uninstall -y jaxlib \ 
-    && mamba install -y -c conda-forge jaxlib=0.4.23
+    && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23
 
 # ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
