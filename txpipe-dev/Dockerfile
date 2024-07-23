@@ -9,7 +9,7 @@ RUN echo Build version 3
 # but apparently not. Might be a github actions thing.
 # or maybe I just didn't wait long enough for the parent
 # build to propagate.
-ENV TX_MPI_VERSION=4.2.1
+ENV TX_MPI_VERSION=4.0.2
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
@@ -29,13 +29,14 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
-    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml > environment-nopip2.yml \
+    && sed '/mpich/d' environment-nopip.yml > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
     && echo cat ../conda-extras.yml \
     && cat ../conda-extras.yml \
     && echo cat environment-piponly.yml \
     && cat environment-piponly.yml \
+    && mamba install https://anaconda.org/conda-forge/mpich/4.0.2/download/linux-64/mpich-4.0.2-external_0.tar.bz2 \
     && mamba env update --name base --file  environment-nopip2.yml \
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
@@ -46,6 +47,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && conda remove --force mpi4py \
     && pip install --no-binary=mpi4py --no-cache-dir mpi4py
 
+RUN python -c "import mpi4py.MPI"
 # ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
 ENV LC_ALL C.UTF-8
