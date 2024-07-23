@@ -26,4 +26,3 @@ RUN apt-get update -y  \
     && make install \
     && rm -rf /opt/mpich \
     && apt-get remove --purge -y gcc gfortran
-

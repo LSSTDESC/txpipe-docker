@@ -29,7 +29,6 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
-    && sed '/mpich/d' environment-nopip.yml > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
     && echo cat ../conda-extras.yml \
