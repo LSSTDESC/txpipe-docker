@@ -1,0 +1,18 @@
+channels:
+  - conda-forge
+dependencies:
+  - threadpoolctl
+  - qp
+  - nbconvert
+  - ipykernel
+  - lsstdesc-gcr-catalogs
+  - compilers
+  - guppy3
+  - mockmpi
+  - pygraphviz
+  - lsstdesc-dc2-dm-data
+  - psycopg2
+  # RAIL wants these additional ones
+  - pyarrow
+  - pytables
+  - somoclu

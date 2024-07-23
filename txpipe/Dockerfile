@@ -1,102 +1,83 @@
 FROM ghcr.io/lsstdesc/txpipe-base
-MAINTAINER joezuntz@googlemail.com
+LABEL maintainer=joezuntz@googlemail.com
 
-# conda dependencies. As much as possible goes in here!
-# should we be pinning versions?
-RUN mamba install -c conda-forge -y \
-                     scipy=1.9.0 \
-                     matplotlib=3.5.1 \
-                     psutil \
-                     "numpy=1.23.*" \
-                     "pandas=1.4.1" \
-                     "dask=2023.5.0" \
-                     scikit-learn \
-                     'mpich=4.2.*=external_*' \
-                     'h5py=*=mpi_mpich_*'\
-                     mpi4py \
-                     "camb=1.5.*" \
-                     "healpy=1.16.*" \
-                     "fitsio=1.1.*" \
-                     "astropy=5.2.*" \
-                     "pyccl=2.6.*" \
-                     namaster \
-                     healsparse \
-                     qp \
-                     "firecrown=1.4.*" \
-                     pygraphviz \
-                     compilers \
-                     guppy3 \
-                     "jax=0.4.14" \
-                     "jaxlib=0.4.14=*cpu*" \
-                     "dm-tree=0.1.7" \
-                     "cosmosis=3.4" \
-                     threadpoolctl \
-                     "sacc>=0.8.1" \
-                     cython \
-                     healpix \
-                     jupyter \
-                     nbconvert \
-                     ipykernel \
-                     "dask-mpi=2022.4.0" \
-                     lsstdesc-gcr-catalogs \
-                     "treecorr>=4.3.3" \
-                     parallel_statistics \
-                     mockmpi \
-                     pzflow \
-                     lsstdesc-dc2-dm-data \
-                     psycopg2
+# This is here so I can force a rebuild when changing
+# stuff in the TXPipe repo.
+RUN echo Build version 3
+
+# I thought this would carry over from the previous build
+# but apparently not. Might be a github actions thing.
+# or maybe I just didn't wait long enough for the parent
+# build to propagate.
+ENV TX_MPI_VERSION=4.2.1
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
-# pip dependencies - fast-moving DESC packages that have not made conda yet
-RUN pip install "ceci>=1.17" \
-                "tjpcov==0.3.2" \
-                "pz-rail[dev]==0.99.1" \
-                "pz-rail-astro-tools==0.0.2" \
-                "pz-rail-base==0.0.4" \
-                "pz-rail-bpz==0.1.0" \
-                "pz-rail-dsps==0.0.2" \
-                "pz-rail-flexzboost==0.1.1" \
-                "pz-rail-fsps==0.0.2" \
-                "pz-rail-gpz-v1==0.1.2" \
-                "pz-rail-pipelines==0.1.0" \
-                "pz-rail-pzflow==0.0.1" \ 
-                "pz-rail-sklearn==0.0.1" \
-                "pz-rail-som==0.0.2" \
-                "jax==0.4.14" \
-                "jaxlib==0.4.14" \
-                "numpy==1.23.*" \
-                "scipy==1.9.0"
+# These should go here so that if we change them
+# it does not invalidate everything above from the cache
+COPY conda-extras.yml conda-extras.yml
+ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
+ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 
-# Force a version of qp that is on pypi but not yet conda
-RUN mamba uninstall --force qp && pip install qp-prob==0.8.5
 
-RUN pip install git+https://github.com/LSSTDESC/CLMM.git@1e3130188e4d0a4edc1cc8bd4d2cc11130a516ec
+# This line makes sure that if the TXPipe version we are using is updated
+# then the cache is invalidated and the new version is used.
+# It doesn't seem to work though.
+ADD https://api.github.com/repos/LSSTDESC/TXPipe/git/refs/heads/${TX_TAG_FOR_DEPENDENCIES} txpipe-version.json
+
+
+# Install the TXPipe environment, but we need to modify the environment file
+# because we want to use the MPICH package that we installed above.
+# The "external" version in conda-forge is a meta-package that does not
+# include the actual libraries, so the pre-installed ones are used instead.
+# We install three sets of conda packages here, TXPipe core, TXPipe NERSC-specific, and RAIL.
+# RAIL tries to demand OpenMPI instead of MPICH, so we can't just directly
+# follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
+RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
+    && cd TXPipe \
+    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml > environment-nopip2.yml \
+    && echo cat environment-nopip2.yml \
+    && cat environment-nopip2.yml \
+    && echo cat ../conda-extras.yml \
+    && cat ../conda-extras.yml \
+    && echo cat environment-piponly.yml \
+    && cat environment-piponly.yml \
+    && mamba env update --name base --file  environment-nopip2.yml \
+    && mamba env update --name base --file ../conda-extras.yml \
+    && mamba env update --name base --file environment-piponly.yml \
+    && cd .. \
+    && rm -rf TXPipe \
+    && pip uninstall -y jaxlib \ 
+    && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23
+
+# ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 CMD ["/bin/bash", "-l"]
+
 ARG TX_DOCKER_VERSION
 ENV TX_DOCKER_VERSION=$TX_DOCKER_VERSION
+
 ARG TX_RELEASE_TAG
 ENV TX_RELEASE_TAG=$TX_RELEASE_TAG
+
 ARG TX_RELEASE_DATE
 ENV TX_RELEASE_DATE=$TX_RELEASE_DATE
-ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Make a link to something that will only appear later
+# This lets us launch jobs on NERSC SLURM from within the container
 RUN mkdir -p /global/common/shared/das/container_proxy/ \
     && touch /global/common/shared/das/container_proxy/client \
     && ln -s  /global/common/shared/das/container_proxy/client /usr/bin/srun \
     && rm -r /global
+ENV PATH ${PATH}:/global/common/shared/das/container_proxy/
 
 # avoid stuff in ~/.local getting mixed in on NERSC
 ENV PYTHONNOUSERSITE=1
 
-RUN pip install git+https://github.com/LSSTDESC/dataregistry.git@v0.4.0
-
-# might not work, let's find out
-# RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
+# If we don't do this here then astropy tries to do it per-user the first
+# time it is run, even if that is massively parallel
+RUN python -c 'import astropy.config; astropy.config.create_config_file("astropy")'
 WORKDIR /opt/TXPipe
-
