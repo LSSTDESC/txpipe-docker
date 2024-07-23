@@ -44,7 +44,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && pip uninstall -y jaxlib \ 
     && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23 \
     && conda remove --force mpi4py \
-    && pip install mpi4py
+    && pip install --no-binary --no-cache mpi4py
 
 # ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
