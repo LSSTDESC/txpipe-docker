@@ -3,7 +3,7 @@ LABEL maintainer=joezuntz@googlemail.com
 
 # This is here so I can force a rebuild when changing
 # stuff in the TXPipe repo.
-RUN echo Build version 2
+RUN echo Build version 3
 
 # I thought this would carry over from the previous build
 # but apparently not. Might be a github actions thing.
@@ -22,6 +22,7 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 
 # This line makes sure that if the TXPipe version we are using is updated
 # then the cache is invalidated and the new version is used.
+# It doesn't seem to work though.
 ADD https://api.github.com/repos/LSSTDESC/TXPipe/git/refs/heads/${TX_TAG_FOR_DEPENDENCIES} txpipe-version.json
 
 
