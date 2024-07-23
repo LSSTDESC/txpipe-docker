@@ -16,14 +16,8 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 # These should go here so that if we change them
 # it does not invalidate everything above from the cache
 COPY conda-extras.yml conda-extras.yml
-ENV TX_TAG_FOR_DEPENDENCIES=library-versions-update
+ENV TX_TAG_FOR_DEPENDENCIES=master
 ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
-
-
-# This line makes sure that if the TXPipe version we are using is updated
-# then the cache is invalidated and the new version is used.
-# It doesn't seem to work though.
-ADD https://api.github.com/repos/LSSTDESC/TXPipe/git/refs/heads/${TX_TAG_FOR_DEPENDENCIES} txpipe-version.json
 
 
 # Install the TXPipe environment, but we need to modify the environment file
