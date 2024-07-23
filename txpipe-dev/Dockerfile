@@ -3,13 +3,13 @@ LABEL maintainer=joezuntz@googlemail.com
 
 # This is here so I can force a rebuild when changing
 # stuff in the TXPipe repo.
-RUN echo Build version 4
+RUN echo Build version 3
 
 # I thought this would carry over from the previous build
 # but apparently not. Might be a github actions thing.
 # or maybe I just didn't wait long enough for the parent
 # build to propagate.
-ENV TX_MPI_VERSION=4.0.3
+ENV TX_MPI_VERSION=4.2.1
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
@@ -18,6 +18,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 COPY conda-extras.yml conda-extras.yml
 ENV TX_TAG_FOR_DEPENDENCIES=master
 ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
+
 
 # Install the TXPipe environment, but we need to modify the environment file
 # because we want to use the MPICH package that we installed above.
@@ -28,14 +29,13 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
-    && sed '/mpich/d'   environment-nopip.yml > environment-nopip2.yml \
+    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
     && echo cat ../conda-extras.yml \
     && cat ../conda-extras.yml \
     && echo cat environment-piponly.yml \
     && cat environment-piponly.yml \
-    && mamba install --name base https://anaconda.org/conda-forge/mpich/4.0.3/download/linux-64/mpich-4.0.3-external_0.tar.bz2 \
     && mamba env update --name base --file  environment-nopip2.yml \
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
@@ -44,7 +44,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && pip uninstall -y jaxlib \ 
     && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23 \
     && conda remove --force mpi4py \
-    && pip install --no-binary=mpi4py --no-cache mpi4py
+    && pip install mpi4py
 
 # ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
