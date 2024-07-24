@@ -29,25 +29,33 @@ ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
 RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
-    && sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' environment-nopip.yml  > environment-nopip2.yml \
+    && cat environment-nopip.yml | sed 's/mpich=.*/mpich='${TX_MPI_VERSION}'=external_*/' | sed '/firecrown/d'  > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
     && echo cat ../conda-extras.yml \
     && cat ../conda-extras.yml \
     && echo cat environment-piponly.yml \
     && cat environment-piponly.yml \
-    && mamba env update --name base --file  environment-nopip2.yml \
+    &&   \
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
     && cd .. \
     && rm -rf TXPipe \
     && pip uninstall -y jaxlib \ 
     && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23 \
-    && conda remove --force mpi4py \
-    && pip install --no-binary=mpi4py --no-cache-dir mpi4py
+    && git clone --branch v1.7.5 https://github.com/TXPipe/firecrown \
+    && cd firecrown \
+    && sed -i '/numcosmo/d' setup.cfg \
+    && pip install . \
+    && cd .. \
+    && rm -rf firecrown \
+    && cd .. \
+    && rm -rf TXPipe \
+    && mamba clean --all -y
+    # && conda remove --force mpi4py \
+    # && pip install --no-binary=mpi4py --no-cache-dir mpi4py
 
 RUN python -c "import mpi4py.MPI"
-# ^^ conda insists on uninstalling and reinstalling an incorrect jaxlib version
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
