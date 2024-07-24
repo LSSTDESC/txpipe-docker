@@ -49,9 +49,9 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && pip install . \
     && cd .. \
     && rm -rf firecrown \
-    && mamba clean --all -y \
     && conda remove --force mpi4py \
-    && pip install --no-binary=mpi4py --no-cache-dir mpi4py
+    && pip install --no-binary=mpi4py --no-cache-dir mpi4py \
+    && mamba clean --all -y
 
 
 ENV LC_ALL C.UTF-8

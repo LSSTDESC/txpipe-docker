@@ -3,6 +3,7 @@ channels:
 dependencies:
   - threadpoolctl
   - qp
+  - compilers
   - nbconvert
   - ipykernel
   - lsstdesc-gcr-catalogs
