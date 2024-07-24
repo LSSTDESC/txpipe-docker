@@ -43,7 +43,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && rm -rf TXPipe \
     && pip uninstall -y jaxlib \ 
     && mamba install -y --force-reinstall -c conda-forge jaxlib=0.4.23 \
-    && git clone --branch v1.7.5 https://github.com/TXPipe/firecrown \
+    && git clone --branch v1.7.5 https://github.com/LSSTDESC/firecrown \
     && cd firecrown \
     && sed -i '/numcosmo/d' setup.cfg \
     && pip install . \
