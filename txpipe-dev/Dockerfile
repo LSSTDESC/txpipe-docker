@@ -1,15 +1,15 @@
-FROM ghcr.io/lsstdesc/txpipe-base
+FROM ghcr.io/lsstdesc/txpipe-base-4.0.2
 LABEL maintainer=joezuntz@googlemail.com
 
 # This is here so I can force a rebuild when changing
 # stuff in the TXPipe repo.
-RUN echo Build version 3
+RUN echo Build version 7
 
 # I thought this would carry over from the previous build
 # but apparently not. Might be a github actions thing.
 # or maybe I just didn't wait long enough for the parent
 # build to propagate.
-ENV TX_MPI_VERSION=4.2.0
+ENV TX_MPI_VERSION=4.0.2
 
 ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
