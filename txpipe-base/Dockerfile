@@ -1,7 +1,7 @@
 FROM condaforge/mambaforge:23.3.1-1
 LABEL maintainer=joezuntz@googlemail.com
 
-ENV TX_MPI_VERSION=4.0.2
+ENV TX_MPI_VERSION=4.2.0
 
 
 # Make, which we will need for everything
