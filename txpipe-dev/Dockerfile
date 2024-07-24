@@ -36,7 +36,7 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && cat ../conda-extras.yml \
     && echo cat environment-piponly.yml \
     && cat environment-piponly.yml \
-    &&   \
+    && mamba env update --name base --file environment-nopip2.yml \
     && mamba env update --name base --file ../conda-extras.yml \
     && mamba env update --name base --file environment-piponly.yml \
     && cd .. \
@@ -49,8 +49,6 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && pip install . \
     && cd .. \
     && rm -rf firecrown \
-    && cd .. \
-    && rm -rf TXPipe \
     && mamba clean --all -y
     # && conda remove --force mpi4py \
     # && pip install --no-binary=mpi4py --no-cache-dir mpi4py
