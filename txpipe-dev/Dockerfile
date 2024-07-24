@@ -53,7 +53,8 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     # && conda remove --force mpi4py \
     # && pip install --no-binary=mpi4py --no-cache-dir mpi4py
 
-RUN python -c "import mpi4py.MPI"
+
+RUN LD_LIBRARY_PATH=/usr/local/lib python -c "import mpi4py.MPI"
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
