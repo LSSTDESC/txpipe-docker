@@ -16,7 +16,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 # These should go here so that if we change them
 # it does not invalidate everything above from the cache
 COPY conda-extras.yml conda-extras.yml
-ENV TX_TAG_FOR_DEPENDENCIES=shifter-mpi-fix
+ENV TX_TAG_FOR_DEPENDENCIES=master
 ENV RAIL_TAG_FOR_DEPENDENCIES=v1.0.0
 
 
