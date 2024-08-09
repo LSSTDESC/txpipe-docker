@@ -1,4 +1,4 @@
-FROM ghcr.io/lsstdesc/txpipe-base-4.0.2
+FROM ghcr.io/lsstdesc/txpipe-base-4.0.2:2024-08-09
 LABEL maintainer=joezuntz@googlemail.com
 
 # This is here so I can force a rebuild when changing
