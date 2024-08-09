@@ -1,4 +1,4 @@
-FROM condaforge/mambaforge:23.3.1-1
+FROM condaforge/mambaforge:24.3.0-0
 LABEL maintainer=joezuntz@googlemail.com
 ARG TX_MPI_VERSION
 ENV TX_MPI_VERSION=${TX_MPI_VERSION}
