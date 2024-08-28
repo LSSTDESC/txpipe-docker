@@ -51,6 +51,8 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && pip install --no-binary=mpi4py --no-cache-dir mpi4py \
     && mamba clean --all -y
 
+# Had to do this manually because of conda-forge version tangles
+RUN pip install tables==3.8.0
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
