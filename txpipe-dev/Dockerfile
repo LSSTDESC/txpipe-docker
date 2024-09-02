@@ -16,7 +16,7 @@ ENV SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 # These should go here so that if we change them
 # it does not invalidate everything above from the cache
 COPY conda-extras.yml conda-extras.yml
-ENV TX_TAG_FOR_DEPENDENCIES=ceci2
+ENV TX_TAG_FOR_DEPENDENCIES=01552d718ca48a95d25574bae697a2d061a5c456
 
 # Install the TXPipe environment, but we need to modify the environment file
 # because we want to use the MPICH package that we installed above.
@@ -25,8 +25,9 @@ ENV TX_TAG_FOR_DEPENDENCIES=ceci2
 # We install three sets of conda packages here, TXPipe core, TXPipe NERSC-specific, and RAIL.
 # RAIL tries to demand OpenMPI instead of MPICH, so we can't just directly
 # follow the RAIL instructions. Instead we put the RAIL deps into the conda-extras.yml
-RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/TXPipe \
+RUN git clone  https://github.com/LSSTDESC/TXPipe \
     && cd TXPipe \
+    && git checkout ${TX_TAG_FOR_DEPENDENCIES} \
     && cat environment-nopip.yml | sed 's/mpich>=.*/mpich='${TX_MPI_VERSION}'=external_*/' | sed '/firecrown/d'  > environment-nopip2.yml \
     && echo cat environment-nopip2.yml \
     && cat environment-nopip2.yml \
@@ -49,7 +50,8 @@ RUN git clone --branch ${TX_TAG_FOR_DEPENDENCIES}  https://github.com/LSSTDESC/T
     && rm -rf firecrown \
     && conda remove --force mpi4py \
     && pip install --no-binary=mpi4py --no-cache-dir mpi4py \
-    && mamba clean --all -y
+    && mamba clean --all -y \
+    && pip cache purge
 
 # Had to do this manually because of conda-forge version tangles
 RUN pip install tables==3.8.0
