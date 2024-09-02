@@ -13,4 +13,6 @@ jobs:
       BUILD_DIR: ./txpipe
       TEST_TAG: lsstdesc/txpipe:latest
       PUSH_TAG: ghcr.io/lsstdesc/txpipe
+      # need the comma at the end of this
+      EXTRA_TAG: ghcr.io/lsstdesc/txpipe:${{ github.event.release.tag_name }},
   

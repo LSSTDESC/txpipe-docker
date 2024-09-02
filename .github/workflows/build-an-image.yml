@@ -15,6 +15,9 @@ on:
         PUSH_TAG:
             required: true
             type: string
+        EXTRA_TAG:
+            required: false
+            type: string
                 
 env:
   REGISTRY: ghcr.io
@@ -66,6 +69,6 @@ jobs:
           # txpipe-dev
           # txpipe-dev:latest
           # txpipe-dev:<the date, e.g. 2023-03-21>
-          tags: ${{ inputs.PUSH_TAG }},${{ inputs.PUSH_TAG }}:latest,${{ inputs.PUSH_TAG }}:${{ steps.release_info.outputs.date }},${{ inputs.PUSH_TAG }}:${{ github.sha }}
+          tags: ${{ inputs.EXTRA_TAG }}${{ inputs.PUSH_TAG }},${{ inputs.PUSH_TAG }}:latest,${{ inputs.PUSH_TAG }}:${{ steps.release_info.outputs.date }},${{ inputs.PUSH_TAG }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
