@@ -14,6 +14,7 @@ RUN apt-get update -y \
 # We need a C compiler temporarily to install MPICH.
 # Then we install following instructions at 
 # https://docs.nersc.gov/development/containers/shifter/how-to-use/#using-mpi-in-shifter
+# We remove the installation afterwards
 RUN apt-get update -y  \
     && DEBIAN_FRONTEND="noninteractive" apt-get install -y gcc gfortran \
     && mkdir /opt/mpich \
@@ -21,7 +22,8 @@ RUN apt-get update -y  \
     && wget http://www.mpich.org/static/downloads/${MPI_VERSION}/mpich-${MPI_VERSION}.tar.gz \
     && tar xvzf mpich-${MPI_VERSION}.tar.gz \
     && cd mpich-${MPI_VERSION} \
-    && ./configure --disable-wrapper-rpath  --disable-cxx --with-device=ch3 && make \
+    && ./configure \
+    && make \
     && make install \
     && rm -rf /opt/mpich \
     && apt-get remove --purge -y gcc gfortran
@@ -30,4 +32,5 @@ RUN /sbin/ldconfig
 
 # check we are using the conda python
 RUN which python3
+RUN python3 --version
 RUN python3 -m pip install mpi4py
