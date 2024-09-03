@@ -25,9 +25,7 @@ RUN apt-get update -y  \
     && ./configure --disable-cxx \
     && make \
     && make install \
-    && rm -rf /opt/mpich \
-    && apt-get remove --purge -y gcc gfortran
-
+    && rm -rf /opt/mpich
 RUN /sbin/ldconfig
 
 # check we are using the conda python
