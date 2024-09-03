@@ -3,7 +3,9 @@ LABEL maintainer=joezuntz@googlemail.com
 
 # This is here so I can force a rebuild when changing
 # stuff in the TXPipe repo.
-RUN echo Build version 11
+RUN echo Build version 12
+
+RUN /sbin/ldconfig
 
 # I thought this would carry over from the previous build
 # but apparently not. Might be a github actions thing.
