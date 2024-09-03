@@ -22,7 +22,7 @@ RUN apt-get update -y  \
     && wget http://www.mpich.org/static/downloads/${MPI_VERSION}/mpich-${MPI_VERSION}.tar.gz \
     && tar xvzf mpich-${MPI_VERSION}.tar.gz \
     && cd mpich-${MPI_VERSION} \
-    && ./configure \
+    && ./configure --disable-cxx \
     && make \
     && make install \
     && rm -rf /opt/mpich \
