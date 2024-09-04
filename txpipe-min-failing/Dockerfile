@@ -15,7 +15,7 @@ RUN mkdir /opt/mpich \
     && wget http://www.mpich.org/static/downloads/${MPI_VERSION}/mpich-${MPI_VERSION}.tar.gz \
     && tar xvzf mpich-${MPI_VERSION}.tar.gz \
     && cd mpich-${MPI_VERSION} \
-    && ./configure --disable-cxx --with-channel=ch3 \
+    && FFLAGS=-fallow-argument-mismatch FCFLAGS=-fallow-argument-mismatch ./configure --disable-cxx --with-channel=ch3 \
     && make \
     && make install \
     && rm -rf /opt/mpich
