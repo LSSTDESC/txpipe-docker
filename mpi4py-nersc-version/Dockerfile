@@ -19,7 +19,7 @@ RUN \
     tar xvzf $mpich_prefix.tar.gz                                           && \
     cd $mpich_prefix                                                        && \
     ./configure                                                             && \
-    make -j 4                                                               && \
+    make -j 2                                                               && \
     make install                                                            && \
     make clean                                                              && \
     cd ..                                                                   && \
