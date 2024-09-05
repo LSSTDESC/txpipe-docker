@@ -27,5 +27,5 @@ RUN \
 
 RUN /sbin/ldconfig
 
-RUN python3 -m pip install mpi4py
+RUN python3 -m  pip install --break-system-packages --force-reinstall --no-cache-dir --no-binary=mpi4py mpi4py
 
