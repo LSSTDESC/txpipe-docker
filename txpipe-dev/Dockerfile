@@ -51,7 +51,7 @@ RUN git clone  https://github.com/LSSTDESC/TXPipe \
     && cd .. \
     && rm -rf firecrown \
     && conda remove --force mpi4py \
-    && MPICC="mpicc " python3 pip install --force-reinstall --no-cache-dir --no-binary=mpi4py mpi4py \
+    && MPICC="mpicc " python3 -m pip install --force-reinstall --no-cache-dir --no-binary=mpi4py mpi4py \
     && mamba clean --all -y \
     && pip cache purge
 
