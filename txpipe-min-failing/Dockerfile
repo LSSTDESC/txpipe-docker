@@ -26,4 +26,4 @@ RUN /sbin/ldconfig
 # check we are using the conda python
 RUN which python3
 RUN python3 --version
-RUN MPICC=mpicc  python3 pip install --force-reinstall --no-cache-dir --no-binary=mpi4py mpi4py
+RUN MPICC=mpicc  python3 pip install --break-system-packages --force-reinstall --no-cache-dir --no-binary=mpi4py mpi4py
